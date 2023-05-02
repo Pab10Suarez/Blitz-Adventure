@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Inventario<T>: MonoBehaviour
+using System.Diagnostics;
+public class Inventario: MonoBehaviour
 {
-    public T[] list;
-    public int capacity;
-    public int size;
-    // Start is called before the first frame update
-    void Start()
+        void Start()
     {
-        
+        Stopwatch sw= new Stopwatch();
+        UnityEngine.Debug.Log("Hola mundo");
     }
 
     // Update is called once per frame
@@ -18,7 +15,14 @@ public class Inventario<T>: MonoBehaviour
     {
         
     }
-    public Inventario(int cap){
+}
+class inventario<T>{
+    public T[] list;
+    public int capacity;
+    public int size;
+    // Start is called before the first frame update
+
+    public inventario(int cap){
         capacity = cap;
         list = new T[cap]; // asi se crea una lista en c#
         size = 0;
@@ -43,7 +47,7 @@ public class Inventario<T>: MonoBehaviour
             }
             list[--size] = default(T); // no se puede usar null para dato generico en c#
         } else {
-            Debug.Log("List is empty.");
+            UnityEngine.Debug.Log("List is empty.");
         }
         print();
     }
@@ -72,7 +76,7 @@ public class Inventario<T>: MonoBehaviour
         }
         else
         {
-            Debug.Log("List is full.");
+            UnityEngine.Debug.Log("List is full.");
             print();
         }
     }
@@ -89,7 +93,7 @@ public class Inventario<T>: MonoBehaviour
         }
         else
         {
-            Debug.Log("List is full.");
+            UnityEngine.Debug.Log("List is full.");
             print();
         }
     }
@@ -117,7 +121,7 @@ public class Inventario<T>: MonoBehaviour
         }
         else
         {
-            Debug.Log("Index out of bounds.");
+            UnityEngine.Debug.Log("Index out of bounds.");
         }
         print();
     }
@@ -134,12 +138,12 @@ public class Inventario<T>: MonoBehaviour
 
     public void print()
     {
-        Debug.Log("List: [");
+        UnityEngine.Debug.Log("List: [");
         for (int i = 0; i < size; i++)
         {
-            Debug.Log(list[i] + ", ");
+            UnityEngine.Debug.Log(list[i] + ", ");
         }
-        Debug.Log("]");
+        UnityEngine.Debug.Log("]");
     }
 }
 
