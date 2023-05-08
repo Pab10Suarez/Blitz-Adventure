@@ -1,35 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 public class spells : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        // DoubleLinkedList linked = new DoubleLinkedList();
+        // ListSpells hechizos = new ListSpells();
+        // hechizos.addSpell("h1",3,4);
+        // hechizos.addSpell("h2",3,4);
+        // hechizos.addSpell("h3",3,4);
+        // hechizos.printSpells();
+        // hechizos.addAfter("h1","h45",3,4);
+        // hechizos.printSpells();
+        // hechizos.deleteSpell("h45");
+        // hechizos.printSpells();
+
+        // Arreglo<Spell> array = new Arreglo<Spell>(3);
         // Spell hechizo1 = new Spell("h1", 3, 4);
         // Spell hechizo2 = new Spell("h2", 3, 4);
         // Spell hechizo3 = new Spell("h3", 3, 4);
-        // linked.pushBack(hechizo1);
-        // linked.pushBack(hechizo2);
-        // linked.pushBack(hechizo3);
-        // linked.print_list();
-        // Spell hechizo45 = new Spell("h45", 3, 4);
-        // linked.addAfter("h1", hechizo45);
-        // linked.print_list();
-        // linked.remove("h45");
-        // linked.print_list();
-        ListSpells hechizos = new ListSpells();
-        hechizos.addSpell("h1",3,4);
-        hechizos.addSpell("h2",3,4);
-        hechizos.addSpell("h3",3,4);
-        hechizos.printSpells();
-        hechizos.addAfter("h1","h45",3,4);
-        hechizos.printSpells();
-        hechizos.deleteSpell("h45");
-        hechizos.printSpells();
+        // array.pushFront(hechizo1);
+        // array.pushFront(hechizo2);
+        // array.pushFront(hechizo3);
+        // array.print();
 
+        Stopwatch sw = new Stopwatch();
+        int test = 50000000;
+        ListSpells objetoPrueba = new ListSpells();
+        sw.Start();
+        for(int i=0;i<test;i++)
+        {
+
+            objetoPrueba.addSpell("h",Random.Range(0,10),Random.Range(0,10));
+        }
+        sw.Stop();
+        UnityEngine.Debug.Log("Pushfront " + test);
+        UnityEngine.Debug.Log(sw.Elapsed);
     }
 
     // Update is called once per frame
@@ -45,7 +54,7 @@ class ListSpells
 
     public void addSpell(string title,int cost, int level) {
 		//stackEmails.add(data);
-        listSpells.pushBack(new Spell(title, cost, level));
+        listSpells.pushFront(new Spell(title, cost, level));
 	}
 	
 	public 	Node  findSpell(string title) {
@@ -272,6 +281,138 @@ public class DoubleLinkedList
                 UnityEngine.Debug.Log(actual.key.getTitle());
                 actual = actual.next;
             }
+        }
+        UnityEngine.Debug.Log("]");
+    }
+}
+
+
+class Arreglo<T>{
+    public T[] list;
+    public int capacity;
+    public int size;
+    // Start is called before the first frame update
+
+    public Arreglo(int cap){
+        capacity = cap;
+        list = new T[cap]; // asi se crea una lista en c#
+        size = 0;
+    }
+    public void pushFront(T key){
+        addBefore(0,key);
+    }
+    public void pushBack(T key){
+        if(!isFull()){
+            list[size++]=key;
+        }
+        else{
+            UnityEngine.Debug.Log("List is full.");
+            print();
+        }
+
+    }
+    public void popFront() {
+        if (!isEmpty()) {
+            for (int i = 0; i < size - 1; i++) {
+                list[i] = list[i + 1];
+            }
+            list[--size] = default(T); // no se puede usar null para dato generico en c#
+        } else {
+            UnityEngine.Debug.Log("List is empty.");
+        }
+        print();
+    }
+    public void popBack()
+    {
+        if (!isEmpty())
+        {
+            list[--size] = default(T);
+        }
+        else
+        {
+            UnityEngine.Debug.Log("List is empty.");
+        }
+        print();
+    }
+    public void addBefore(int index, T key)
+    {
+        if (!isFull())
+        {
+            for (int i = size; i > index; i--)
+            {
+                list[i] = list[i - 1];
+            }
+            list[index] = key;
+            size++;
+        }
+        else
+        {
+            UnityEngine.Debug.Log("List is full.");
+            print();
+        }
+    }
+    public void addAfter(int index, T key)
+    {
+        if (!isFull())
+        {
+            for (int i = size; i > index + 1; i--)
+            {
+                list[i] = list[i - 1];
+            }
+            list[index + 1] = key;
+            size++;
+        }
+        else
+        {
+            UnityEngine.Debug.Log("List is full.");
+            print();
+        }
+    }
+   public T get(int index)
+    {
+        if (index >= 0 && index < size)
+        {
+            return list[index];
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Index out of bounds.");
+            return default(T);
+        }
+    }
+    public void remove(int index)
+    {
+        if (index >= 0 && index < size)
+        {
+            for (int i = index; i < size - 1; i++)
+            {
+                list[i] = list[i + 1];
+            }
+            list[--size] = default(T);
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Index out of bounds.");
+        }
+        print();
+    }
+
+    public bool isFull()
+    {
+        return size == capacity;
+    }
+
+    public bool isEmpty()
+    {
+        return size == 0;
+    }
+
+    public void print()
+    {
+        UnityEngine.Debug.Log("List: [");
+        for (int i = 0; i < size; i++)
+        {
+            UnityEngine.Debug.Log(list[i] + ", ");
         }
         UnityEngine.Debug.Log("]");
     }
