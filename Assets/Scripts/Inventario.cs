@@ -4,15 +4,23 @@ using UnityEngine;
 using System.Diagnostics;
 public class Inventario: MonoBehaviour
 {
-        void Start()
-    {
+    // Start is called before the first frame update
+        void Start(){
         Stopwatch sw= new Stopwatch();
-        UnityEngine.Debug.Log("Hola mundo");
+        int test=100000000;
+        inventario<Item> objetoprueba= new inventario<Item>(test);
+        for(int i=0; i<test;i++){
+            objetoprueba.pushBack(new Item("nombrestest","descripciontest",1));
+        }
+        sw.Start();   
+        objetoprueba.get(Random.Range(0,test));
+        sw.Stop();
+        UnityEngine.Debug.Log("Get "+test);
+        UnityEngine.Debug.Log(sw.Elapsed);
     }
-
     // Update is called once per frame
     void Update()
-    {
+    { 
         
     }
 }
@@ -20,7 +28,7 @@ class inventario<T>{
     public T[] list;
     public int capacity;
     public int size;
-    // Start is called before the first frame update
+    
 
     public inventario(int cap){
         capacity = cap;
@@ -35,7 +43,7 @@ class inventario<T>{
             list[size++]=key;
         }
         else{
-            Debug.Log("List is full.");
+            UnityEngine.Debug.Log("El inventario está lleno!");
             print();
         }
 
@@ -59,7 +67,7 @@ class inventario<T>{
         }
         else
         {
-            Debug.Log("List is empty.");
+            UnityEngine.Debug.Log("List is empty.");
         }
         print();
     }
@@ -105,7 +113,7 @@ class inventario<T>{
         }
         else
         {
-            Debug.Log("Index out of bounds.");
+            UnityEngine.Debug.Log("Index out of bounds.");
             return default(T);
         }
     }
