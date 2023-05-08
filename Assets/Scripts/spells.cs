@@ -18,7 +18,7 @@ public class spells : MonoBehaviour
         // hechizos.deleteSpell("h45");
         // hechizos.printSpells();
 
-        // Arreglo<Spell> array = new Arreglo<Spell>(3);
+         Arreglo<Spell> objetoPrueba = new Arreglo<Spell>(3);
         // Spell hechizo1 = new Spell("h1", 3, 4);
         // Spell hechizo2 = new Spell("h2", 3, 4);
         // Spell hechizo3 = new Spell("h3", 3, 4);
@@ -28,14 +28,15 @@ public class spells : MonoBehaviour
         // array.print();
 
         Stopwatch sw = new Stopwatch();
-        int test = 50000000;
-        ListSpells objetoPrueba = new ListSpells();
-        sw.Start();
+        int test = 10000000;
+        //ListSpells objetoPrueba = new ListSpells();
+        
         for(int i=0;i<test;i++)
         {
-
-            objetoPrueba.addSpell("h",Random.Range(0,10),Random.Range(0,10));
+            objetoPrueba.pushBack(new Spell("h1",3,4));
         }
+        sw.Start();
+        objetoPrueba.pushFront(new Spell("h2",3,4));    
         sw.Stop();
         UnityEngine.Debug.Log("Pushfront " + test);
         UnityEngine.Debug.Log(sw.Elapsed);
