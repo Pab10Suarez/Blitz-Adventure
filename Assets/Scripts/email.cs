@@ -1,1047 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics;		
-
+using UnityEngine.UI;	
+using TMPro;
 
 public class email : MonoBehaviour
 {
+	public Animator animator;
+	public RectTransform cartaprefab;
+	Vector3 Posicionsiguientecarta;
+	public Button btnClick;
+	private bool oprimidoabrir;
+	private bool oprimidoexit;
+	private int numberEmail;
+    private stack stackEmails = new stack();
     // Start is called before the first frame update
     void Start()
     {
-		Stopwatch sw = new Stopwatch();
-		
-
-		string[] data = {"abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","Amar","Amar","Temer","Partir",
-		"Llamar","Comer","Vivir","Ocurrir","Caminar","Suceder","Diluviar","Granizar","Entrar","Salvar","Vaciar","Matar","Ganar","Colocar",
-		"Hablar","Cantar","Viajar","Trabajar","Comprar","Ladrar","Besar","Llevar”,”Pelear”,”Lavar","Peinar","Maquillar","Dejar","Levantar",
-		"Nadar","Llorar","Gritar”,”Aburrir”,“Lamentar","Quejar","Asustar","Valorar","Felicitar","Madrugar","Operar","Bailar”,”Deber”,“Pagar",
-		"Bajar","Visitar","Remediar","Sacar”,”Llegar”,”Abarcar","Tirar","Zanjar","Centrar","Abrazar”,”Jurar","Rascar","Fallar","Nutrir",
-		"Beber","Idear","Unir","Gastar","Hallar","Mejorar","Fiar","Derribar","Variar","Quemar","Vigilar”,“Ligar","Patinar","Buscar","Meter",
-		"Grabar","Dar","Hacer","Poder","Tener","Pedir","Ir","Haber”,”Mostrar","Contar","Llover”,”Nevar","Helar","Tronar","Imponer”,”Amanecer",
-		"Nacer","Morir","Salir","Caer","Cerrar","Oler","Seguir","Demostrar","Leer","Dormir","Mover","Ser","Estar","Parecer","Herir","Conocer",
-		"Repetir","Destruir","Acostar","Venir","Jugar","Mantener","Encontrar","Arrepentir","Acertar”,”Volar","Mentir","Perder","Empezar",
-		"Negar","Oír","Morder","Poner","Decir","Caber","Arrendar","Hervir","Invertir”,”Traer","Lucir","Obtener","Moler","Recordar","Yacer",
-		"Querer","Elegir","Despedir”,”Colgar","Intuir","Forzar","Divertir","Creer”,”Apretar","Regar","Exponer","Soñar","Fluir","Valer","Huir",
-		"Desplegar",		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","Amar","Amar","Temer","Partir",
-		"Llamar","Comer","Vivir","Ocurrir","Caminar","Suceder","Diluviar","Granizar","Entrar","Salvar","Vaciar","Matar","Ganar","Colocar",
-		"Hablar","Cantar","Viajar","Trabajar","Comprar","Ladrar","Besar","Llevar”,”Pelear”,”Lavar","Peinar","Maquillar","Dejar","Levantar",
-		"Nadar","Llorar","Gritar”,”Aburrir”,“Lamentar","Quejar","Asustar","Valorar","Felicitar","Madrugar","Operar","Bailar”,”Deber”,“Pagar",
-		"Bajar","Visitar","Remediar","Sacar”,”Llegar”,”Abarcar","Tirar","Zanjar","Centrar","Abrazar”,”Jurar","Rascar","Fallar","Nutrir",
-		"Beber","Idear","Unir","Gastar","Hallar","Mejorar","Fiar","Derribar","Variar","Quemar","Vigilar”,“Ligar","Patinar","Buscar","Meter",
-		"Grabar","Dar","Hacer","Poder","Tener","Pedir","Ir","Haber”,”Mostrar","Contar","Llover”,”Nevar","Helar","Tronar","Imponer”,”Amanecer",
-		"Nacer","Morir","Salir","Caer","Cerrar","Oler","Seguir","Demostrar","Leer","Dormir","Mover","Ser","Estar","Parecer","Herir","Conocer",
-		"Repetir","Destruir","Acostar","Venir","Jugar","Mantener","Encontrar","Arrepentir","Acertar”,”Volar","Mentir","Perder","Empezar",
-		"Negar","Oír","Morder","Poner","Decir","Caber","Arrendar","Hervir","Invertir”,”Traer","Lucir","Obtener","Moler","Recordar","Yacer",
-		"Querer","Elegir","Despedir”,”Colgar","Intuir","Forzar","Divertir","Creer”,”Apretar","Regar","Exponer","Soñar","Fluir","Valer","Huir",
-		"Desplegar",		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","Amar","Amar","Temer","Partir",
-		"Llamar","Comer","Vivir","Ocurrir","Caminar","Suceder","Diluviar","Granizar","Entrar","Salvar","Vaciar","Matar","Ganar","Colocar",
-		"Hablar","Cantar","Viajar","Trabajar","Comprar","Ladrar","Besar","Llevar”,”Pelear”,”Lavar","Peinar","Maquillar","Dejar","Levantar",
-		"Nadar","Llorar","Gritar”,”Aburrir”,“Lamentar","Quejar","Asustar","Valorar","Felicitar","Madrugar","Operar","Bailar”,”Deber”,“Pagar",
-		"Bajar","Visitar","Remediar","Sacar”,”Llegar”,”Abarcar","Tirar","Zanjar","Centrar","Abrazar”,”Jurar","Rascar","Fallar","Nutrir",
-		"Beber","Idear","Unir","Gastar","Hallar","Mejorar","Fiar","Derribar","Variar","Quemar","Vigilar”,“Ligar","Patinar","Buscar","Meter",
-		"Grabar","Dar","Hacer","Poder","Tener","Pedir","Ir","Haber”,”Mostrar","Contar","Llover”,”Nevar","Helar","Tronar","Imponer”,”Amanecer",
-		"Nacer","Morir","Salir","Caer","Cerrar","Oler","Seguir","Demostrar","Leer","Dormir","Mover","Ser","Estar","Parecer","Herir","Conocer",
-		"Repetir","Destruir","Acostar","Venir","Jugar","Mantener","Encontrar","Arrepentir","Acertar”,”Volar","Mentir","Perder","Empezar",
-		"Negar","Oír","Morder","Poner","Decir","Caber","Arrendar","Hervir","Invertir”,”Traer","Lucir","Obtener","Moler","Recordar","Yacer",
-		"Querer","Elegir","Despedir”,”Colgar","Intuir","Forzar","Divertir","Creer”,”Apretar","Regar","Exponer","Soñar","Fluir","Valer","Huir",
-		"Desplegar",		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","Amar","Amar","Temer","Partir",
-		"Llamar","Comer","Vivir","Ocurrir","Caminar","Suceder","Diluviar","Granizar","Entrar","Salvar","Vaciar","Matar","Ganar","Colocar",
-		"Hablar","Cantar","Viajar","Trabajar","Comprar","Ladrar","Besar","Llevar”,”Pelear”,”Lavar","Peinar","Maquillar","Dejar","Levantar",
-		"Nadar","Llorar","Gritar”,”Aburrir”,“Lamentar","Quejar","Asustar","Valorar","Felicitar","Madrugar","Operar","Bailar”,”Deber”,“Pagar",
-		"Bajar","Visitar","Remediar","Sacar”,”Llegar”,”Abarcar","Tirar","Zanjar","Centrar","Abrazar”,”Jurar","Rascar","Fallar","Nutrir",
-		"Beber","Idear","Unir","Gastar","Hallar","Mejorar","Fiar","Derribar","Variar","Quemar","Vigilar”,“Ligar","Patinar","Buscar","Meter",
-		"Grabar","Dar","Hacer","Poder","Tener","Pedir","Ir","Haber”,”Mostrar","Contar","Llover”,”Nevar","Helar","Tronar","Imponer”,”Amanecer",
-		"Nacer","Morir","Salir","Caer","Cerrar","Oler","Seguir","Demostrar","Leer","Dormir","Mover","Ser","Estar","Parecer","Herir","Conocer",
-		"Repetir","Destruir","Acostar","Venir","Jugar","Mantener","Encontrar","Arrepentir","Acertar”,”Volar","Mentir","Perder","Empezar",
-		"Negar","Oír","Morder","Poner","Decir","Caber","Arrendar","Hervir","Invertir”,”Traer","Lucir","Obtener","Moler","Recordar","Yacer",
-		"Querer","Elegir","Despedir”,”Colgar","Intuir","Forzar","Divertir","Creer”,”Apretar","Regar","Exponer","Soñar","Fluir","Valer","Huir",
-		"Desplegar","cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",
-		"tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar","inyectar","tomar","controlar","jactar",
-		"setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar","traicionar","cooperar","ladrar",
-		"tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar","transmitir","coronar","latir",
-		"transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar","tricotar","cortar","levar",
-		"triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir","liquidar","urdir","cuajar",
-		"listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender","cultivar","llorar","venerar",
-		"cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar","vincular","deber","manchar",
-		"violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar","vivir","declinar","marear",
-		"voltear","decorar","matar","vomitar","fefinir","matricular","votar","regalar","bordar","expresar","regatear","borrar","exprimir",
-		"registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar","reinar","broncear","facturar",
-		"relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar","caldear","felicitar","remar",
-		"callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar","filmar","repartir","cancelar",
-		"filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar","firmar","reprochar","capitular",
-		"flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar","formar","respetar","cautivar","formular",
-		"respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar","frotar","resultar","cenar","frustrar","resumir",
-		"censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar","revelar","cesar","fundir","revisar","charlar",
-		"fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear","cifrar","gastar","sabotear","circular","generar",
-		"saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar","golpear","saltar","cobrar","grabar","saludar","cocinar",
-		"gritar","salvar","coincidir","guardar","sanar","colaborar","gustar","seleccionar","coleccionar","habitar","señalar","colorear",
-		"hablar","separar","combatir","hallar","simular","combinar","humillar","sobrar","comentar","hundir","sobrevivir","comer","ignorar",
-		"socorrer","comerciar","iluminar","solicitar","cometer","ilustrar","solucionar","comparar","imaginar","someter","compartir","imitar",
-		"soplar","compensar","implementar","soportar","compilar","importar","sorprender","completar","impresionar","sospechar","comportar",
-		"imprimir","subir","comprar","improvisar","subrayar","comprender","inaugurar","suceder","comprimir","inclinar","sudar","comprometer",
-		"incorporar","sufrir","conceder","incrementar","sujetar","concentrar","informar","sumar","condenar","ingresar","superar","condicionar",
-		"inhalar","suplir","conectar","iniciar","suprimir","configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir",
-		"insistir","suspirar","congelar","inspeccionar","tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar",
-		"conservar","insultar","tartamudear","considerar","integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar",
-		"temer","constatar","interesar","temperar","consultar","interpretar","templar","consumir","interrumpir","terminar","contactar",
-		"inundar","tintar","contaminar","invadir","tirar","contemplar","inventar","titular","contestar","invitar","tolerar","contratar",
-		"inyectar","tomar","controlar","jactar","setornear","conversar","juntar","toser","convidar","jurar","trabajar","convivir","laborar",
-		"traicionar","cooperar","ladrar","tramar","coordinar","lamentar","tramitar","copiar","lamer","transformar","coquetear","lastimar",
-		"transmitir","coronar","latir","transportar","correr","lavar","trasladar","corresponder","legitimar","tratar","corromper","levantar",
-		"tricotar","cortar","levar","triunfar","cosechar","liberar","tumbar","coser","limitar","unir","crear","limpiar","untar","crujir",
-		"liquidar","urdir","cuajar","listar","usar","cubrir","llamar","vacilar","cuidar","llenar","vendar","culpar","llevar","vender",
-		"cultivar","llorar","venerar","cumplir","lloviznar","viajar","curar","lograr","vibrar","dañar","luchar","vigilar","debatir","madurar",
-		"vincular","deber","manchar","violar","decepcionar","maquillar","visitar","decidir","maravillar","vislumbrar","declarar","marchar",
-		"vivir","declinar","marear","voltear","decorar","matar","vomitar","fefinir","matricular","votar","abandonar","degustar","medita","rabatir","dejar","mejorar","abonar","denigrar","mencionar","abordar","depender",
-		"meter","abortar","deplorar","mezclar","abrochar","depositar","migrar","absober","deprimir","mirar","aburrir","derribar","modular",
-		"abusar","desaconsejar","mojar","acabar","desafinar","molar","acampar","desarrollar","molestar","acariciar","desatar","montar",
-		"acceder","desayunar","motivar","acelerar","descansar","muda","raceptar","descarrilar","murmurar","aclarar","desconectar","mutilar",
-		"acomodar","descongelar","nadar","acompañar","descubrir","narrar","aconsejar","desear","narrar","acoplar","desnudar","necesitar",
-		"acortar","destinar","negociar","acosar","detectar","nombrar","acostumbrar","deterior","arnotar","acreditar","determinar","nublar",
-		"activar","detestar","numerar","acudir","devorar","nutrir","acusar","dibujar","observar","adaptar","dictar","ocultar","adelantar",
-		"diferenciar","ocupar","adivinar","difundir","ocurrir","adjuntar","dimitir","odiar","administrar","discriminar","ofender","admirar",
-		"disculpar","olvidar","admitir","discutir","omitir","adoptar","diseñar","operar","adorar","disfrutar","opinar","adornar",
-		"disimular","optar","afectar","disparar","ordenar","afeitar","disputar","orinar","afinar","dividir","osar","afirmar","divisar",
-		"oscilar","aflojar","divorciar","oxidar","afrontar","doblar","parar","agarrar","dominar","parpadear","agitar","donar","participar",
-		"agotar","dudar","partir","agradar","durar","pasar","aguantar","echar","pasear","aguar","dar","editar","pasmar","ahorrar","ejecutar",
-		"patear","ajustar","ejercitar","patinar","alarmar","elaborar","pedalear","alborotar","elevar","peinar","alegrar","eliminar","pelar",
-		"alejar","emancipar","pelear","aligerar","embrollar","pender","alimentar","embrujar","penetrar","aliñar","emigrar","percibir",
-		"aliviar","emitir","perder","almacenar","empeñar","perdonar","alojar","emplear","perfeccionar","alquilar","emprender","perfumar",
-		"alterar","empujar","permitir","alumbrar","enamorar","persistir","amar","encajar","persuadir","anhelar","encantar","pesar","animar",
-		"enchufar","pillar","anotar","encuestar","pinchar","anticipar","enfadar","pintar","anular","enfermar","pisar","anunciar","enganchar",
-		"planchar","añadir","engañar","planear","añorar","engordar","plantar","apartar","engrasar","plantear","apelar","enhebrar","polucionar",
-		"apestar","enojar","portar","aplastar","enredar","posar","aplaudir","ensanchar","pregonar","aportar","ensayar","preguntar","apoyar",
-		"enseñar","prender","apreciar","ensuciar","preocupar","aprender","enterar","preparar","aprovechar","entrañar","presentar","apuntar",
-		"entrar","preservar","apurar","entrenar","presionar","arañar","entrevistar","prestar","arder","entusiasmar","presumir","armar",
-		"envidiar","pretender","arrastrar","escalar","privar","arreglar","escapar","proceder","arrestar","esconder","procesar","arrojar",
-		"escribir","proclamar","asar","escuchar","procurar","asegurar","escupir","programar","asesinar","esperar","progresa","rasistir",
-		"espirar","prometer","asociar","estacionar","pronunciar","asomar","estallar","proporcionar","asombrar","estimar","protestar",
-		"aspirar","estimular","proyectar","asumir","estirar","pulir","asustar","estornudar","pulsar","atar","estrenar","quedar","atrapar",
-		"estresar","quemar","atrasar","estropear","quitar","atrever","estudiar","radiar","aturdir","evadir","reaccionar","aumentar","evitar",
-		"readmitir","avisar","evolucionar","rebobinar","ayudar","exagerar","recelar","bailar","examinar","recibir","bajar","excavar",
-		"reciclar","balancear","excitar","reclamar","bañar","exclamar","reconquistar","barajar","excusar","recopilar","barrer","exhalar",
-		"recorrer","bastar","exhibir","recuper","arbatir","existir","redactar","beber","experimentar","refinar","beneficiar","expirar",
-		"reflejar","besar","explorar","reflexionar","bloquear","explotar","refriger","arbombear","exportar","regalar","bordar","expresar",
-		"regatear","borrar","exprimir","registrar","brillar","expulsar","regresar","brindar","extrañar","regular","bromear","facilitar",
-		"reinar","broncear","facturar","relacionar","bucear","fallar","relajar","burlar","faltar","relatar","calcular","fascinar","rellenar",
-		"caldear","felicitar","remar","callar","festejar","remitir","calmar","figurar","renunciar","cambiar","fijar","reparar","caminar",
-		"filmar","repartir","cancelar","filosofar","repasar","candar","filtrar","reportar","cansar","financiar","representar","cantar",
-		"firmar","reprochar","capitular","flirtear","resbalar","capturar","flotar","reservar","casar","fomentar","resistir","causar",
-		"formar","respetar","cautivar","formular","respirar","cavar","fracasar","responder","ceder","frenar","restaurar","celebrar",
-		"frotar","resultar","cenar","frustrar","resumir","censurar","fumar","retirar","centrar","funcionar","retrasar","cepillar","fundar",
-		"revelar","cesar","fundir","revisar","charlar","fusionar","robar","chatear","ganar","rodear","chupar","gandulear","saborear",
-		"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir",
-		"configurar","inmigrar","surtir","confirmar","insertar","suspender","confundir","insistir","suspirar","congelar","inspeccionar",
-		"tapar","conjeturar","inspirar","tararear","conquistar","instalar","tardar","conservar","insultar","tartamudear","considerar",
-		"integrar","tejer","consistir","intentar","telefonear","consolidar","intercambiar","temer","constatar","interesar","temperar",
-		"consultar","interpretar","templar","consumir","interrumpir","terminar","contactar","inundar","tintar","contaminar","invadir",	"cifrar","gastar","sabotear","circular","generar","saciar","citar","gestionar","sacudir","clarear","girar","salar","clavar",
-		"golpear","saltar","cobrar","grabar","saludar","cocinar","gritar","salvar","coincidir","guardar","sanar","colaborar","gustar",
-		"seleccionar","coleccionar","habitar","señalar","colorear","hablar","separar","combatir","hallar","simular","combinar","humillar",
-		"sobrar","comentar","hundir","sobrevivir","comer","ignorar","socorrer","comerciar","iluminar","solicitar","cometer","ilustrar",
-		"solucionar","comparar","imaginar","someter","compartir","imitar","soplar","compensar","implementar","soportar","compilar","importar",
-		"sorprender","completar","impresionar","sospechar","comportar","imprimir","subir","comprar","improvisar","subrayar","comprender",
-		"inaugurar","suceder","comprimir","inclinar","sudar","comprometer","incorporar","sufrir","conceder","incrementar","sujetar",
-		"concentrar","informar","sumar","condenar","ingresar","superar","condicionar","inhalar","suplir","conectar","iniciar","suprimir"};
-
-		mailBox<Email> MainEmail = new mailBox<Email>();
-
-		for(int n=0;n<data.Length;n++){
-			Missions missionGeneral = new Missions(data[n],Random.Range(1,11));
-			Email emailGeneral = new Email(n+1,missionGeneral);
-			MainEmail.addMessage(emailGeneral);
+		oprimidoabrir=false;
+        btnClick.onClick.AddListener(botonabrirOprimido);
+		Missions misionprueba=new Missions("Bienvenido!","Hola, bienvenido a Blitz Land, espero que disfrutes la estadia en tu nueva casa, ya que veo que eres nuevo por aca te mostraré el lugar",0);
+		addMessage(misionprueba);
+		Missions misionprueba2=new Missions("Ayuda en el vecindario","Necesito que me ayudes con algo lo mas pronto posible.\n-Gil (tu nuevo vecino)",0);
+		addMessage(misionprueba2);
+		Posicionsiguientecarta=cartaprefab.position;
+	}
+	void Update() {
+		// si el boton es oprimido vuelve la carta visible, tambien revisa si hay cartas en el stack
+		if(oprimidoabrir&&!stackEmails.empty()){
+			//Va creando instancias del prefab carta para cada uno de las cartas que haya en el stack
+			for(int i=0;i<stackEmails.Size();i++){
+				GameObject cartainstanciada=Instantiate(cartaprefab).gameObject;
+				writeMessage(cartainstanciada);
+				// hace el boton next visible
+				if(!stackEmails.empty()){
+					GameObject btnnextmessage=cartainstanciada.transform.Find("Next").gameObject;
+					btnnextmessage.transform.GetComponent<Button>().onClick.AddListener(botonsiguienteOprimido);
+					btnnextmessage.SetActive(true);
+				}
+				//sino hace el boton de salida visible
+				else{
+					GameObject btnexit=cartainstanciada.transform.Find("Exit").gameObject;
+					btnexit.transform.GetComponent<Button>().onClick.AddListener(botonsalirOprimido);
+					btnexit.SetActive(true);
+				}
+				cartainstanciada.transform.SetParent(transform);
+				cartainstanciada.transform.position=Posicionsiguientecarta;
+				Debug.Log(Posicionsiguientecarta.x);
+				cartainstanciada.transform.localScale=new Vector3(1,1,1);
+				cartainstanciada.SetActive(true);
+				Posicionsiguientecarta=new Vector3(Posicionsiguientecarta.x+15,Posicionsiguientecarta.y,Posicionsiguientecarta.z);
+			}
 		}
-
-		sw.Start();
-
-		for(int n=0;n<9000;n++){
-				int random = Random.Range(1,MainEmail.numberMessage());
-				UnityEngine.Debug.Log(MainEmail.searchMessage(random).acceptMission().getTitle());
+		if(oprimidoexit){
+			 foreach (Transform child in transform) {
+				GameObject.Destroy(child.gameObject);
+			}
 		}
-
-		sw.Stop();
-
-		UnityEngine.Debug.Log(MainEmail.numberMessage());
-        UnityEngine.Debug.Log(sw.Elapsed.Milliseconds);
-
-		
-
-		/*int random = Random.Range(1,MainEmail.numberMessage());
-        UnityEngine.Debug.Log(MainEmail.numberMessage());
-        UnityEngine.Debug.Log(MainEmail.viewMessage().acceptMission().getDifficulty());
-		MainEmail.deleteMessege();
-        UnityEngine.Debug.Log(MainEmail.viewMessage().acceptMission().getDifficulty());
-        UnityEngine.Debug.Log(MainEmail.searchMessage(random).acceptMission().getTitle());*/
-
-        /*Missions misionOne = new Missions("Tocar",2);
-        Missions misionTwo = new Missions("Saltar",1);
-        Missions misionTree = new Missions("atacar",4);
-
-        Email emailOne = new Email(1,misionOne);
-        Email emailTwo = new Email(2,misionTwo);
-        Email emailTree = new Email(3,misionTree);
-
-        //mailBox<Email> MainEmail = new mailBox<Email>();
-        MainEmail.addMessage(emailOne);
-        MainEmail.addMessage(emailTwo);
-        MainEmail.addMessage(emailTree);
-
-        
-		Debug.Log(MainEmail.searchMessage(1).acceptMission().getTitle());
-		Debug.Log(MainEmail.viewMessage().acceptMission().getTitle());
-		Debug.Log(MainEmail.numberMessage());*/
-
-        
-
-    }
-}
-
-class mailBox<T>
-{
-    private int numberEmail;
-    private stack<T> stackEmails = new stack<T>();
-
-    public void addMessage(T data) {
+	}
+	void FixedUpdate() {
+	}
+	public void writeMessage(GameObject carta){
+		//Escribe el mensaje en el prefab de una carta
+			GameObject Titulo=carta.transform.Find("Titulo").gameObject; // encuentra al "niño"
+			GameObject Descripcion=carta.transform.Find("Descripcion").gameObject;
+			Missions ultimamision=getMessage();
+			Titulo.transform.GetComponent<TextMeshProUGUI>().text=ultimamision.getTitle();
+			Descripcion.transform.GetComponent<TextMeshProUGUI>().text=ultimamision.getDescription();
+	}
+    public void addMessage(Missions data) {
 		stackEmails.add(data);
 	}
-	
-	public 	T  viewMessage() {
-		return (T) stackEmails.top();	
+	public 	Missions  getMessage() {
+	 	return  stackEmails.delete();	
 	}
 	
 	public void deleteMessege() {
@@ -1049,42 +80,100 @@ class mailBox<T>
 	}
 	
 	public int numberMessage() {
-		
 		return stackEmails.Size();
     }
-
-	public Email searchMessage(int data){
-		return stackEmails.find(data);
+	public void botonabrirOprimido(){
+		oprimidoabrir=true;
 	}
+	public void botonsiguienteOprimido(){
+		animator.SetTrigger("nextMessage");
+	}
+	public void botonsalirOprimido(){
+		oprimidoexit=true;
+	}
+
 }
 
-class Email{
-    
-	private int id;
-    private Missions missions;
+class stack {
 	
-	public Email(int id,Missions missions) {
-		this.id = id;
-		this.missions = missions;
-	}
+	private Node head;
+	private Node tail;
+	private int size;
 	
-	public Missions acceptMission() {
-		return missions;
-	}
+	class Node{
+		private Node next;
+		private Missions data;
+		
+		public Node(Missions data) {
+			this.data = data;
+		}
 
-	public int getID(){
-		return this.id;
+        public void setNext(Node next){
+            this.next = next;
+        }
+
+        public Node getNext(){
+            return next;
+        }
+
+        public Missions getData(){
+            return data;
+        }
+	}
+	
+	public bool empty() {
+		return head == null;
+	}
+	
+	public void add(Missions data) {
+		
+		size++;
+		
+		if(empty()) {
+			head = new Node(data);
+			return;
+		}
+		
+		tail = head;
+		head = new Node(data);
+		head.setNext(tail);
+	}
+	
+	public Missions delete() {
+		Missions data = default(Missions);
+		size --;
+		if(!empty()) {
+			data = head.getData();
+			head = head.getNext();
+		}
+		return data;
+	}
+	
+	public Missions top() {
+		Missions data = default(Missions);
+		if(!empty()) {
+			data = head.getData();
+		}
+		return data;
+	}
+	
+	public int Size() {
+		return size;
 	}
 }
-
-class Missions {
-	
+public class Missions {
 	private string title;
+	private string description;
 	private int difficulty;
+	
 	private int advance; 
 	
-	public Missions(string title,int difficulty) {
+	public Missions(){
+
+	}
+	public Missions(string title,string description,int difficulty) {
 		this.title = title;
+		this.description=description;
 		this.difficulty=difficulty;
 	}
     
@@ -1104,87 +193,8 @@ class Missions {
 	public int getDifficulty(){
 		return difficulty;
 	}
+	public string getDescription(){
+		return description;
+	}
 
 }
-
-class stack<T> {
-	
-	private Node<T> head;
-	private Node<T> tail;
-	private int size;
-	
-	class Node<T>{
-		private Node<T> next;
-		private T data;
-		
-		public Node(T data) {
-			this.data = data;
-		}
-
-        public void setNext(Node<T> next){
-            this.next = next;
-        }
-
-        public Node<T> getNext(){
-            return next;
-        }
-
-        public T getData(){
-            return data;
-        }
-	}
-	
-	public bool empty() {
-		return head == null;
-	}
-	
-	public void add(T data) {
-		
-		size++;
-		
-		if(empty()) {
-			head = new Node<T>(data);
-			return;
-		}
-		
-		tail = head;
-		head = new Node<T>(data);
-		head.setNext(tail);
-	}
-	
-	public T delete() {
-		T data = default(T);
-		size --;
-		if(!empty()) {
-			data = (T) head.getData();
-			head = head.getNext();
-		}
-		return data;
-	}
-	
-	public T top() {
-		T data = default(T);
-		if(!empty()) {
-			data = (T) head.getData();
-		}
-		return data;
-	}
-	
-	public int Size() {
-		return size;
-	}
-
-	public Email find(int data){
-		Node<T> head2= head;
-		while(head2!=null){
-			Email v = head2.getData() as Email;
-			int value = v.getID();
-			if(value==data){
-				return v;
-			}
-			head2 = head2.getNext();
-		}
-		return null;
-	}
-}
-
