@@ -1,29 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics;		
-
+using UnityEngine.UI;	
+using TMPro;
 
 public class email : MonoBehaviour
 {
+	public Animator animator;
+	public RectTransform cartaprefab;
+	Vector3 Posicionsiguientecarta;
+	public Button btnClick;
+	private bool oprimidoabrir;
+	private bool oprimidoexit;
+	private int numberEmail;
+    private stack stackEmails = new stack();
     // Start is called before the first frame update
     void Start()
     {
-
-    }
-}
-
-class mailBox<T>
-{
-    private int numberEmail;
-    private stack<T> stackEmails = new stack<T>();
-
-    public void addMessage(T data) {
+		oprimidoabrir=false;
+        btnClick.onClick.AddListener(botonabrirOprimido);
+		Missions misionprueba=new Missions("Bienvenido!","Hola, bienvenido a Blitz Land, espero que disfrutes la estadia en tu nueva casa, ya que veo que eres nuevo por aca te mostraré el lugar",0);
+		addMessage(misionprueba);
+		Missions misionprueba2=new Missions("Ayuda en el vecindario","Necesito que me ayudes con algo lo mas pronto posible.\n-Gil (tu nuevo vecino)",0);
+		addMessage(misionprueba2);
+		Posicionsiguientecarta=cartaprefab.position;
+	}
+	void Update() {
+		// si el boton es oprimido vuelve la carta visible, tambien revisa si hay cartas en el stack
+		if(oprimidoabrir&&!stackEmails.empty()){
+			//Va creando instancias del prefab carta para cada uno de las cartas que haya en el stack
+			for(int i=0;i<stackEmails.Size();i++){
+				GameObject cartainstanciada=Instantiate(cartaprefab).gameObject;
+				writeMessage(cartainstanciada);
+				// hace el boton next visible
+				if(!stackEmails.empty()){
+					GameObject btnnextmessage=cartainstanciada.transform.Find("Next").gameObject;
+					btnnextmessage.transform.GetComponent<Button>().onClick.AddListener(botonsiguienteOprimido);
+					btnnextmessage.SetActive(true);
+				}
+				//sino hace el boton de salida visible
+				else{
+					GameObject btnexit=cartainstanciada.transform.Find("Exit").gameObject;
+					btnexit.transform.GetComponent<Button>().onClick.AddListener(botonsalirOprimido);
+					btnexit.SetActive(true);
+				}
+				cartainstanciada.transform.SetParent(transform);
+				cartainstanciada.transform.position=Posicionsiguientecarta;
+				Debug.Log(Posicionsiguientecarta.x);
+				cartainstanciada.transform.localScale=new Vector3(1,1,1);
+				cartainstanciada.SetActive(true);
+				Posicionsiguientecarta=new Vector3(Posicionsiguientecarta.x+15,Posicionsiguientecarta.y,Posicionsiguientecarta.z);
+			}
+		}
+		if(oprimidoexit){
+			 foreach (Transform child in transform) {
+				GameObject.Destroy(child.gameObject);
+			}
+		}
+	}
+	void FixedUpdate() {
+	}
+	public void writeMessage(GameObject carta){
+		//Escribe el mensaje en el prefab de una carta
+			GameObject Titulo=carta.transform.Find("Titulo").gameObject; // encuentra al "niño"
+			GameObject Descripcion=carta.transform.Find("Descripcion").gameObject;
+			Missions ultimamision=getMessage();
+			Titulo.transform.GetComponent<TextMeshProUGUI>().text=ultimamision.getTitle();
+			Descripcion.transform.GetComponent<TextMeshProUGUI>().text=ultimamision.getDescription();
+	}
+    public void addMessage(Missions data) {
 		stackEmails.add(data);
 	}
-	
-	public 	T  viewMessage() {
-		return (T) stackEmails.top();	
+	public 	Missions  getMessage() {
+	 	return  stackEmails.delete();	
 	}
 	
 	public void deleteMessege() {
@@ -31,42 +80,97 @@ class mailBox<T>
 	}
 	
 	public int numberMessage() {
-		
 		return stackEmails.Size();
     }
-
-	public Email searchMessage(int data){
-		return stackEmails.find(data);
+	public void botonabrirOprimido(){
+		oprimidoabrir=true;
 	}
+	public void botonsiguienteOprimido(){
+		animator.SetTrigger("nextMessage");
+	}
+	public void botonsalirOprimido(){
+		oprimidoexit=true;
+	}
+
 }
 
-class Email{
-    
-	private int id;
-    private Missions missions;
+class stack {
 	
-	public Email(int id,Missions missions) {
-		this.id = id;
-		this.missions = missions;
-	}
+	private Node head;
+	private Node tail;
+	private int size;
 	
-	public Missions acceptMission() {
-		return missions;
-	}
+	class Node{
+		private Node next;
+		private Missions data;
+		
+		public Node(Missions data) {
+			this.data = data;
+		}
 
-	public int getID(){
-		return this.id;
+        public void setNext(Node next){
+            this.next = next;
+        }
+
+        public Node getNext(){
+            return next;
+        }
+
+        public Missions getData(){
+            return data;
+        }
+	}
+	
+	public bool empty() {
+		return head == null;
+	}
+	
+	public void add(Missions data) {
+		
+		size++;
+		
+		if(empty()) {
+			head = new Node(data);
+			return;
+		}
+		
+		tail = head;
+		head = new Node(data);
+		head.setNext(tail);
+	}
+	
+	public Missions delete() {
+		Missions data = default(Missions);
+		size --;
+		if(!empty()) {
+			data = head.getData();
+			head = head.getNext();
+		}
+		return data;
+	}
+	
+	public Missions top() {
+		Missions data = default(Missions);
+		if(!empty()) {
+			data = head.getData();
+		}
+		return data;
+	}
+	
+	public int Size() {
+		return size;
 	}
 }
-
-class Missions {
-	
+public class Missions {
 	private string title;
 	private string description;
 	private int difficulty;
 	
 	private int advance; 
 	
+	public Missions(){
+
+	}
 	public Missions(string title,string description,int difficulty) {
 		this.title = title;
 		this.description=description;
@@ -94,85 +198,3 @@ class Missions {
 	}
 
 }
-
-class stack<T> {
-	
-	private Node<T> head;
-	private Node<T> tail;
-	private int size;
-	
-	class Node<T>{
-		private Node<T> next;
-		private T data;
-		
-		public Node(T data) {
-			this.data = data;
-		}
-
-        public void setNext(Node<T> next){
-            this.next = next;
-        }
-
-        public Node<T> getNext(){
-            return next;
-        }
-
-        public T getData(){
-            return data;
-        }
-	}
-	
-	public bool empty() {
-		return head == null;
-	}
-	
-	public void add(T data) {
-		
-		size++;
-		
-		if(empty()) {
-			head = new Node<T>(data);
-			return;
-		}
-		
-		tail = head;
-		head = new Node<T>(data);
-		head.setNext(tail);
-	}
-	
-	public T delete() {
-		T data = default(T);
-		size --;
-		if(!empty()) {
-			data = (T) head.getData();
-			head = head.getNext();
-		}
-		return data;
-	}
-	
-	public T top() {
-		T data = default(T);
-		if(!empty()) {
-			data = (T) head.getData();
-		}
-		return data;
-	}
-	
-	public int Size() {
-		return size;
-	}
-
-	public Email find(int data){
-		Node<T> head2= head;
-		while(head2!=null){
-			Email v = head2.getData() as Email;
-			int value = v.getID();
-			if(value==data){
-				return v;
-			}
-			head2 = head2.getNext();
-		}
-		return null;
-	}
-}
-
