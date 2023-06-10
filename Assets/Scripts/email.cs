@@ -19,9 +19,11 @@ public class email : MonoBehaviour
     {
 		oprimidoabrir=false;
         btnClick.onClick.AddListener(botonabrirOprimido);
-		Missions misionprueba=new Missions("Bienvenido!","Hola, bienvenido a Blitz Land, espero que disfrutes la estadia en tu nueva casa, ya que veo que eres nuevo por aca te mostraré el lugar",0);
+		Missions misionprueba=new Missions(0,"Bienvenido!",0);
+		misionprueba.description="Hola, bienvenido a Blitz Land, espero que disfrutes la estadia en tu nueva casa, ya que veo que eres nuevo por aca te mostraré el lugar";
 		addMessage(misionprueba);
-		Missions misionprueba2=new Missions("Ayuda en el vecindario","Necesito que me ayudes con algo lo mas pronto posible.\n-Gil (tu nuevo vecino)",0);
+		Missions misionprueba2=new Missions(1,"Ayuda en el vecindario",0);
+		misionprueba2.description="Necesito que me ayudes con algo lo mas pronto posible.\n-Gil (tu nuevo vecino)";
 		addMessage(misionprueba2);
 		Posicionsiguientecarta=cartaprefab.position;
 	}
@@ -160,41 +162,4 @@ class stack {
 	public int Size() {
 		return size;
 	}
-}
-public class Missions {
-	private string title;
-	private string description;
-	private int difficulty;
-	
-	private int advance; 
-	
-	public Missions(){
-
-	}
-	public Missions(string title,string description,int difficulty) {
-		this.title = title;
-		this.description=description;
-		this.difficulty=difficulty;
-	}
-    
-	
-	public string getTitle() {
-		return title;
-	}
-
-	public void setAdvance(int advance){
-		this.advance = advance;
-	}
-
-	public int getAdvance(){
-		return advance;
-	}
-
-	public int getDifficulty(){
-		return difficulty;
-	}
-	public string getDescription(){
-		return description;
-	}
-
 }
