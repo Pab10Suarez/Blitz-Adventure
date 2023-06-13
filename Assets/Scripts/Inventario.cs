@@ -4,19 +4,10 @@ using UnityEngine;
 using System.Diagnostics;
 public class Inventario: MonoBehaviour
 {
+    public ArrayList array=new(10);
     // Start is called before the first frame update
-        void Start(){
-        Stopwatch sw= new Stopwatch();
-        int test=100000000;
-        inventario<Item> objetoprueba= new inventario<Item>(test);
-        for(int i=0; i<test;i++){
-            objetoprueba.pushBack(new Item("nombrestest","descripciontest",1));
-        }
-        sw.Start();   
-        objetoprueba.get(Random.Range(0,test));
-        sw.Stop();
-        UnityEngine.Debug.Log("Get "+test);
-        UnityEngine.Debug.Log(sw.Elapsed);
+    void Start(){
+        
     }
     // Update is called once per frame
     void Update()
@@ -24,56 +15,56 @@ public class Inventario: MonoBehaviour
         
     }
 }
-class inventario<T>{
-    public T[] list;
+public class ArrayList{
+    public Item[] list;
     public int capacity;
     public int size;
     
 
-    public inventario(int cap){
+    public ArrayList(int cap){
         capacity = cap;
-        list = new T[cap]; // asi se crea una lista en c#
+        list = new Item[cap]; // asi se crea una lista en c#
         size = 0;
     }
-    public void pushFront(T key){
-        addBefore(0,key);
+    public void PushFront(Item key){
+        AddBefore(0,key);
     }
-    public void pushBack(T key){
-        if(!isFull()){
+    public void PushBack(Item key){
+        if(!IsFull()){
             list[size++]=key;
         }
         else{
             UnityEngine.Debug.Log("El inventario está lleno!");
-            print();
+            Print();
         }
 
     }
-    public void popFront() {
-        if (!isEmpty()) {
+    public void PopFront() {
+        if (!IsEmpty()) {
             for (int i = 0; i < size - 1; i++) {
                 list[i] = list[i + 1];
             }
-            list[--size] = default(T); // no se puede usar null para dato generico en c#
+            list[--size] = default; // no se puede usar null para dato generico en c#
         } else {
             UnityEngine.Debug.Log("List is empty.");
         }
-        print();
+        Print();
     }
-    public void popBack()
+    public void PopBack()
     {
-        if (!isEmpty())
+        if (!IsEmpty())
         {
-            list[--size] = default(T);
+            list[--size] = default;
         }
         else
         {
             UnityEngine.Debug.Log("List is empty.");
         }
-        print();
+        Print();
     }
-    public void addBefore(int index, T key)
+    public void AddBefore(int index, Item key)
     {
-        if (!isFull())
+        if (!IsFull())
         {
             for (int i = size; i > index; i--)
             {
@@ -85,12 +76,12 @@ class inventario<T>{
         else
         {
             UnityEngine.Debug.Log("List is full.");
-            print();
+            Print();
         }
     }
-    public void addAfter(int index, T key)
+    public void AddAfter(int index, Item key)
     {
-        if (!isFull())
+        if (!IsFull())
         {
             for (int i = size; i > index + 1; i--)
             {
@@ -102,10 +93,10 @@ class inventario<T>{
         else
         {
             UnityEngine.Debug.Log("List is full.");
-            print();
+            Print();
         }
     }
-   public T get(int index)
+   public Item Get(int index)
     {
         if (index >= 0 && index < size)
         {
@@ -114,10 +105,10 @@ class inventario<T>{
         else
         {
             UnityEngine.Debug.Log("Index out of bounds.");
-            return default(T);
+            return default;
         }
     }
-    public void remove(int index)
+    public void Remove(int index)
     {
         if (index >= 0 && index < size)
         {
@@ -125,33 +116,34 @@ class inventario<T>{
             {
                 list[i] = list[i + 1];
             }
-            list[--size] = default(T);
+            list[--size] = default;
         }
         else
         {
             UnityEngine.Debug.Log("Index out of bounds.");
         }
-        print();
+        Print();
     }
 
-    public bool isFull()
+    public bool IsFull()
     {
         return size == capacity;
     }
 
-    public bool isEmpty()
+    public bool IsEmpty()
     {
         return size == 0;
     }
 
-    public void print()
+    public void Print()
     {
         UnityEngine.Debug.Log("List: [");
         for (int i = 0; i < size; i++)
         {
-            UnityEngine.Debug.Log(list[i] + ", ");
+            UnityEngine.Debug.Log(list[i].nombre + ", ");
         }
         UnityEngine.Debug.Log("]");
     }
+    
 }
 
