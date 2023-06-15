@@ -6,15 +6,23 @@ using System;
 
 public class gestorMisiones<T> : MonoBehaviour
 {
-    // Start is called before the first frame update
 
 
     private int numberEmail;
+<<<<<<< Updated upstream
     private stack<T> stackEmails = new stack<T>();
 	private queuePriority cola = new queuePriority(6);
 
     public void addMessage(T data) {
 		stackEmails.add(data);
+=======
+
+    //private stack<T> stackEmails = new stack<T>();
+	private queuePriority cola = new queuePriority(6);
+
+	public void deleteMision(Missions mision) {
+		cola.delete(mision.getID());
+>>>>>>> Stashed changes
 	}
 	
 	public 	T  viewMessage() {
@@ -42,8 +50,9 @@ public class gestorMisiones<T> : MonoBehaviour
 		cola.insert(mision);
 	}
 
-	public void emailmissionEspecial(){
-		cola.travel();
+	public Missions[] emailmissionEspecial(){
+		Missions[] values = cola.travel();
+		return values;
 	}
 }
 
@@ -247,11 +256,14 @@ class queuePriority{
 		siftDown(i);
 	}
 
-	public void travel(){
-
+	public Missions[] travel(){
+		Missions [] values  = new Missions[data.Length];
 		for(int n=0;n<data.Length;n++){
-			UnityEngine.Debug.Log(data[n].getTitle()+ " "+data[n].getPriority());
+			//UnityEngine.Debug.Log(data[n].getTitle()+ " "+data[n].getPriority());
+			values[n] = data[n];
 		}
+		return values;
+
 	}
 
 	public void delete(int valor){
