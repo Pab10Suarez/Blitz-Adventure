@@ -4,46 +4,43 @@ using UnityEngine;
 using System.Diagnostics;
 using System;
 
-public class gestorMisiones<T> : MonoBehaviour
+public class gestorMisiones : MonoBehaviour
 {
-    // Start is called before the first frame update
 
 
     private int numberEmail;
-    private stack<T> stackEmails = new stack<T>();
+
+    //private stack stackEmails = new stack<T>();
 	private queuePriority cola = new queuePriority(6);
 
-    public void addMessage(T data) {
-		stackEmails.add(data);
+	public void deleteMision(Missions mision) {
+		cola.delete(mision.getID());
 	}
 	
-	public 	T  viewMessage() {
-		T value = stackEmails.top();
-		Email v = value as Email;
-		Missions m = v.acceptMission();
-		addMission(m);
-		return (T) stackEmails.top();	
-	}
+	// public 	T  viewMessage() {
+	// 	T value = stackEmails.top();
+	// 	Email v = value as Email;
+	// 	Missions m = v.acceptMission();
+	// 	addMission(m);
+	// 	return (T) stackEmails.top();	
+	// }
 	
 	public void deleteMessege() {
-		stackEmails.delete();
+		cola.delete(1);
 	}
 	
-	public int numberMessage() {
-		
-		return stackEmails.Size();
-    }
 
-	public Email searchMessage(int data){
-		return stackEmails.find(data);
+	public void searchMessage(int data){
+		//return cola.find(data);
 	}
 
-	private void addMission(Missions mision){
+	public void addMission(Missions mision){
 		cola.insert(mision);
 	}
 
-	public void emailmissionEspecial(){
-		cola.travel();
+	public Missions[] emailmissionEspecial(){
+		Missions[] values = cola.travel();
+		return values;
 	}
 }
 
@@ -247,11 +244,14 @@ class queuePriority{
 		siftDown(i);
 	}
 
-	public void travel(){
-
+	public Missions[] travel(){
+		Missions [] values  = new Missions[data.Length];
 		for(int n=0;n<data.Length;n++){
-			UnityEngine.Debug.Log(data[n].getTitle()+ " "+data[n].getPriority());
+			//UnityEngine.Debug.Log(data[n].getTitle()+ " "+data[n].getPriority());
+			values[n] = data[n];
 		}
+		return values;
+
 	}
 
 	public void delete(int valor){
@@ -261,7 +261,7 @@ class queuePriority{
 		}else UnityEngine.Debug.Log("Elemento no encontrado");
 	}
 
-	private int find(int valor){
+	public int find(int valor){
 		for(int n=0;n<data.Length;n++){
 			if (data[n].getID()==valor) return n;
 		}
