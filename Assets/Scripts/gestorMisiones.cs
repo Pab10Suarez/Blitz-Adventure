@@ -4,49 +4,37 @@ using UnityEngine;
 using System.Diagnostics;
 using System;
 
-public class gestorMisiones<T> : MonoBehaviour
+public class gestorMisiones : MonoBehaviour
 {
 
 
     private int numberEmail;
-<<<<<<< Updated upstream
-    private stack<T> stackEmails = new stack<T>();
-	private queuePriority cola = new queuePriority(6);
 
-    public void addMessage(T data) {
-		stackEmails.add(data);
-=======
-
-    //private stack<T> stackEmails = new stack<T>();
+    //private stack stackEmails = new stack<T>();
 	private queuePriority cola = new queuePriority(6);
 
 	public void deleteMision(Missions mision) {
 		cola.delete(mision.getID());
->>>>>>> Stashed changes
 	}
 	
-	public 	T  viewMessage() {
-		T value = stackEmails.top();
-		Email v = value as Email;
-		Missions m = v.acceptMission();
-		addMission(m);
-		return (T) stackEmails.top();	
-	}
+	// public 	T  viewMessage() {
+	// 	T value = stackEmails.top();
+	// 	Email v = value as Email;
+	// 	Missions m = v.acceptMission();
+	// 	addMission(m);
+	// 	return (T) stackEmails.top();	
+	// }
 	
 	public void deleteMessege() {
-		stackEmails.delete();
+		cola.delete(1);
 	}
 	
-	public int numberMessage() {
-		
-		return stackEmails.Size();
-    }
 
-	public Email searchMessage(int data){
-		return stackEmails.find(data);
+	public void searchMessage(int data){
+		//return cola.find(data);
 	}
 
-	private void addMission(Missions mision){
+	public void addMission(Missions mision){
 		cola.insert(mision);
 	}
 
@@ -273,7 +261,7 @@ class queuePriority{
 		}else UnityEngine.Debug.Log("Elemento no encontrado");
 	}
 
-	private int find(int valor){
+	public int find(int valor){
 		for(int n=0;n<data.Length;n++){
 			if (data[n].getID()==valor) return n;
 		}
