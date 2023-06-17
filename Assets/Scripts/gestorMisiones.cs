@@ -7,32 +7,12 @@ using System;
 public class gestorMisiones : MonoBehaviour
 {
 
-
-    private int numberEmail;
-
-    //private stack stackEmails = new stack<T>();
 	private queuePriority cola = new queuePriority(6);
 
 	public void deleteMision(Missions mision) {
 		cola.delete(mision.getID());
 	}
 	
-	// public 	T  viewMessage() {
-	// 	T value = stackEmails.top();
-	// 	Email v = value as Email;
-	// 	Missions m = v.acceptMission();
-	// 	addMission(m);
-	// 	return (T) stackEmails.top();	
-	// }
-	
-	public void deleteMessege() {
-		cola.delete(1);
-	}
-	
-
-	public void searchMessage(int data){
-		//return cola.find(data);
-	}
 
 	public void addMission(Missions mision){
 		cola.insert(mision);
