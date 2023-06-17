@@ -4,10 +4,15 @@ using UnityEngine;
 using System.Diagnostics;
 public class Inventario: MonoBehaviour
 {
+    
     public ArrayList array=new(10);
+   public RectTransform itemprefab;
     // Start is called before the first frame update
     void Start(){
-        
+        for(int i =0;i<10;i++){
+            GameObject cartainstanciada=Instantiate(itemprefab).gameObject;
+            cartainstanciada.transform.SetParent(transform);
+        }
     }
     // Update is called once per frame
     void Update()
