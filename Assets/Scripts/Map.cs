@@ -3,41 +3,26 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
 
-    linkedList lista = new linkedList();
-    travelMap mapa = new travelMap();
-    // Start is called before the first frame update
-    void Start()
-    {
-        Region r1 = new Region("Suba",3);
-        Region r2 = new Region("Antonio nariño",5);
-        Region r3 = new Region("Chapinero",4);
-        Region r4 = new Region("Julio",6);
-        Region r5 = new Region("Paloquemado",2);
-
-        lista.push(r1);
-        lista.push(r2);
-        lista.push(r3);
-        lista.push(r4);
-        lista.push(r5);
-
-        mapa.setRegions(lista);
-        mapa.createTree();
-        Debug.Log(mapa.search(r4,r5));
-        
-
-        mapa.travelRegions();
-
-        //mapa.imprimir();
-        
-
-    }
+    private linkedList lista = new linkedList();
+    private travelMap mapa = new travelMap();
     
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+    public void addRegion(Region region){
+        mapa.arbol(region);
     }
+
+    public void printRoot(){
+        mapa.raiz();
+        //mapa.imprimir();
+        mapa.travelRegions();
+    }
+
+    public void camino(Region x, Region y){
+        mapa.searchXY(x,y);
+        //mapa.travelRegions();
+    }
+
 }
 
 class travelMap
@@ -45,6 +30,9 @@ class travelMap
     private Node root;
     private linkedList regions;
     private linkedList TravelRegions = new linkedList();
+
+
+
 
     class Node{
 
@@ -102,7 +90,7 @@ class travelMap
         Debug.Log("raiz"+root.getKey().getId());
     }
 
-    private void arbol(Region r){
+    public void arbol(Region r){
         root = insert(root,r);
     }
 
@@ -186,8 +174,16 @@ class travelMap
         updateHeight(x);
         return x;
     }
+
+    public void searchXY(Region x,Region y){
+
+        x.setFormTravel(true);
+        y.setFormTravel(true);
+        search(x,y);
+
+    }
     
-    public int search(Region x,Region y) {
+    private int search(Region x,Region y) {
     	Node N = find(x);
 
     	if(y.getId()==N.getKey().getId()) {
@@ -284,44 +280,11 @@ class travelMap
 	}
 
     public void travelRegions(){
-        while(TravelRegions.Top()!=null){
+        while(TravelRegions.Top()==null){
             Region v = TravelRegions.PopFront();
             Debug.Log(v.getName());
         }
     }
-}
-
-class Region 
-{
-    private string name;
-	private int id;
-	private bool formTravel;
-	
-	
-	public Region(string name,int id) {
-		
-		this.name = name;
-		this.id = id;
-		this.formTravel= false;
-	}
-	public string getName() {
-		return name;
-	}
-	public void setName(string name) {
-		this.name = name;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public bool isFormTravel() {
-		return formTravel;
-	}
-	public void setFormTravel(bool formTravel) {
-		this.formTravel = formTravel;
-	}
 }
 
 class linkedList
@@ -349,6 +312,8 @@ class linkedList
             this.next = next;
         }
     }
+
+
 
     public bool empty() { 
         

@@ -7,7 +7,7 @@ using System;
 public class gestorMisiones : MonoBehaviour
 {
 
-	private queuePriority cola = new queuePriority(6);
+	private queuePriority cola = new queuePriority(4);
 
 	public void deleteMision(Missions mision) {
 		cola.delete(mision.getID());
