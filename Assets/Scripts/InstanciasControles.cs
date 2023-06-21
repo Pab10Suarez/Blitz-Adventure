@@ -67,7 +67,7 @@ public class InstanciasControles : MonoBehaviour
                 }
             }
             else if(misiones[n].getPriority()==1){
-                Debug.Log(misiones[n].getPriority());
+                // Debug.Log(misiones[n].getPriority());
                 string tituloS1 = MisionS1.text;
                 string tituloS2 = MisionS2.text;
                 string defecto = "New Text";
