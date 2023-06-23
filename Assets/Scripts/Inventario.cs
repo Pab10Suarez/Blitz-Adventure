@@ -9,6 +9,8 @@ public class Inventario: MonoBehaviour
    public RectTransform itemprefab;
    public Button boton;
    public Button botonsalir;
+   public Button botonsalirdetalles;
+   private bool oprimidosalirdetalles;
    private bool oprimidosalir;
    private bool oprimidoabrir;
    private bool primeravez;
@@ -19,12 +21,12 @@ public class Inventario: MonoBehaviour
         primeravez=true;
         boton.onClick.AddListener(BotonOprimido);
         botonsalir.onClick.AddListener(BotonSalirOprimido);
+        botonsalirdetalles.onClick.AddListener(BotonSalirDetallesOprimido);
         
     }
     // Update is called once per frame
     void Update()
     {   
-        
         if(oprimidoabrir){
             if(primeravez){
                 // va poniendo los slots dependiendo de la capacidad de ljugador
@@ -39,6 +41,7 @@ public class Inventario: MonoBehaviour
                         Debug.Log("entrocosa");
                         Sprite icono=itemactual.icono;
                         objetoinstanciado.transform.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                        objetoinstanciado.transform.GetComponent<Itemslot>().item=itemactual;
                     }
                 }
                 primeravez=false;
@@ -54,6 +57,7 @@ public class Inventario: MonoBehaviour
                         Sprite icono=itemactual.icono;
                         Transform objetoslot=inventariogameobject.transform.GetChild(i+3);
                         objetoslot.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                        objetoslot.transform.GetComponent<Itemslot>().item=itemactual;
                     }
                 }
              }  
@@ -64,12 +68,20 @@ public class Inventario: MonoBehaviour
             inventariogameobject.SetActive(false);
             oprimidosalir=false;
         }
+        if(oprimidosalirdetalles){
+            Debug.Log("hola de mar");
+            inventariogameobject.transform.Find("detalles objeto").gameObject.SetActive(false);
+            oprimidosalirdetalles=false;
+        }
     }
     public void BotonOprimido(){  
         oprimidoabrir=true;
     }
     public void BotonSalirOprimido(){
         oprimidosalir=true;
+    }
+    public void BotonSalirDetallesOprimido(){
+        oprimidosalirdetalles=true;
     }
 }
 public class ArrayList{
