@@ -179,7 +179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 888.9707, y: 2.399994}
+  m_AnchoredPosition: {x: 888.9707, y: 2.4000244}
   m_SizeDelta: {x: 106.5178, y: 88.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3293460163410928560
@@ -320,7 +320,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 318.39, y: 33.35}
+  m_SizeDelta: {x: 823.3154, y: 49.2186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7134340927386965109
 CanvasRenderer:
@@ -352,8 +352,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bienvenido!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4cd21ef786a001843a03e464b17c0238, type: 2}
-  m_sharedMaterial: {fileID: 3930926237429091380, guid: 4cd21ef786a001843a03e464b17c0238, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f5c38d4f2f0e38a49ab29639bab16d75, type: 2}
+  m_sharedMaterial: {fileID: -7447896568898572533, guid: f5c38d4f2f0e38a49ab29639bab16d75, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -377,15 +377,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 10
@@ -635,8 +635,8 @@ MonoBehaviour:
     los mas de 100 campeones Elijes a Garen, te gusta Garen, es f\xE1cil matar a
     tus enemigos con Garen. Al principio no necesitas ser experto"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5d7c865a90b751749812037d7a92ad45, type: 2}
-  m_sharedMaterial: {fileID: -1885945902803063473, guid: 5d7c865a90b751749812037d7a92ad45, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f5c38d4f2f0e38a49ab29639bab16d75, type: 2}
+  m_sharedMaterial: {fileID: -7447896568898572533, guid: f5c38d4f2f0e38a49ab29639bab16d75, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -660,8 +660,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

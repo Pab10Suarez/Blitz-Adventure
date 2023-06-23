@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 564f7c4a8be53654cbc944a75a0f6147
+guid: 3b1fa0caec59b8b49b5d42e60237e9f9
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,8 +9,9 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Atlantis Headline
-  fallbackFontReferences: []
+  - Atlantis Text
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7b6276bbb9dd08e4b91ff320a39ca855, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

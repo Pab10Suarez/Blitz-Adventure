@@ -1,18 +1,87 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics;
+using UnityEngine.UI;
 public class Inventario: MonoBehaviour
 {
-    public ArrayList array=new(10);
+    public int capacidadjugador=14;
+    public ArrayList array=new(14);
+   public RectTransform itemprefab;
+   public Button boton;
+   public Button botonsalir;
+   public Button botonsalirdetalles;
+   private bool oprimidosalirdetalles;
+   private bool oprimidosalir;
+   private bool oprimidoabrir;
+   private bool primeravez;
+   public GameObject inventariogameobject;
     // Start is called before the first frame update
     void Start(){
+        oprimidoabrir=false;
+        primeravez=true;
+        boton.onClick.AddListener(BotonOprimido);
+        botonsalir.onClick.AddListener(BotonSalirOprimido);
+        botonsalirdetalles.onClick.AddListener(BotonSalirDetallesOprimido);
         
     }
     // Update is called once per frame
     void Update()
-    { 
-        
+    {   
+        if(oprimidoabrir){
+            if(primeravez){
+                // va poniendo los slots dependiendo de la capacidad de ljugador
+                for(int i =0;i<capacidadjugador;i++){
+                    GameObject objetoinstanciado=Instantiate(itemprefab).gameObject;
+                    objetoinstanciado.transform.SetParent(inventariogameobject.transform);
+                    Item itemactual=array.Get(i);
+                    Debug.Log(i);
+                    //Debug.Log(!object.ReferenceEquals(itemactual, null));
+                    // la forma de revisar si es igual a null en unity 
+                    if(!object.ReferenceEquals(itemactual, null)){
+                        Debug.Log("entrocosa");
+                        Sprite icono=itemactual.icono;
+                        objetoinstanciado.transform.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                        objetoinstanciado.transform.GetComponent<Itemslot>().item=itemactual;
+                    }
+                }
+                primeravez=false;
+             }
+             else{
+                for(int i =0;i<capacidadjugador;i++){
+                    Item itemactual=array.Get(i);
+                    Debug.Log(i);
+                    //Debug.Log(!object.ReferenceEquals(itemactual, null));
+                    // la forma de revisar si es igual a null en unity 
+                    if(!object.ReferenceEquals(itemactual, null)){
+                        Debug.Log("entrocosa");
+                        Sprite icono=itemactual.icono;
+                        Transform objetoslot=inventariogameobject.transform.GetChild(i+3);
+                        objetoslot.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                        objetoslot.transform.GetComponent<Itemslot>().item=itemactual;
+                    }
+                }
+             }  
+            inventariogameobject.SetActive(true);
+            oprimidoabrir=false;
+        }
+        if(oprimidosalir){
+            inventariogameobject.SetActive(false);
+            oprimidosalir=false;
+        }
+        if(oprimidosalirdetalles){
+            Debug.Log("hola de mar");
+            inventariogameobject.transform.Find("detalles objeto").gameObject.SetActive(false);
+            oprimidosalirdetalles=false;
+        }
+    }
+    public void BotonOprimido(){  
+        oprimidoabrir=true;
+    }
+    public void BotonSalirOprimido(){
+        oprimidosalir=true;
+    }
+    public void BotonSalirDetallesOprimido(){
+        oprimidosalirdetalles=true;
     }
 }
 public class ArrayList{
@@ -105,7 +174,7 @@ public class ArrayList{
         else
         {
             UnityEngine.Debug.Log("Index out of bounds.");
-            return default;
+            return null;
         }
     }
     public void Remove(int index)
@@ -140,7 +209,7 @@ public class ArrayList{
         UnityEngine.Debug.Log("List: [");
         for (int i = 0; i < size; i++)
         {
-            UnityEngine.Debug.Log(list[i].nombre + ", ");
+            UnityEngine.Debug.Log(list[i].nombre + ", "+i);
         }
         UnityEngine.Debug.Log("]");
     }
