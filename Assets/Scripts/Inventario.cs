@@ -4,16 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Inventario: MonoBehaviour
 {
-    public int capacidadjugador=16;
-    public ArrayList array=new(24);
+    public int capacidadjugador=14;
+    public ArrayList array=new(14);
    public RectTransform itemprefab;
    public Button boton;
+   public Button botonsalir;
+   private bool oprimidosalir;
    private bool oprimidoabrir;
+   private bool primeravez;
    public GameObject inventariogameobject;
     // Start is called before the first frame update
     void Start(){
         oprimidoabrir=false;
+        primeravez=true;
         boton.onClick.AddListener(BotonOprimido);
+        botonsalir.onClick.AddListener(BotonSalirOprimido);
         
     }
     // Update is called once per frame
@@ -21,28 +26,50 @@ public class Inventario: MonoBehaviour
     {   
         
         if(oprimidoabrir){
-            // va poniendo los slots dependiendo de la capacidad de ljugador
-            for(int i =0;i<capacidadjugador;i++){
-                GameObject objetoinstanciado=Instantiate(itemprefab).gameObject;
-                objetoinstanciado.transform.SetParent(inventariogameobject.transform);
-                Item itemactual=array.Get(i);
-                Debug.Log(i);
-                //Debug.Log(!object.ReferenceEquals(itemactual, null));
-                // la forma de revisar si es igual a null en unity 
-                if(!object.ReferenceEquals(itemactual, null)){
-                    Debug.Log("entrocosa");
-                    Sprite icono=itemactual.icono;
-                    objetoinstanciado.transform.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+            if(primeravez){
+                // va poniendo los slots dependiendo de la capacidad de ljugador
+                for(int i =0;i<capacidadjugador;i++){
+                    GameObject objetoinstanciado=Instantiate(itemprefab).gameObject;
+                    objetoinstanciado.transform.SetParent(inventariogameobject.transform);
+                    Item itemactual=array.Get(i);
+                    Debug.Log(i);
+                    //Debug.Log(!object.ReferenceEquals(itemactual, null));
+                    // la forma de revisar si es igual a null en unity 
+                    if(!object.ReferenceEquals(itemactual, null)){
+                        Debug.Log("entrocosa");
+                        Sprite icono=itemactual.icono;
+                        objetoinstanciado.transform.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                    }
                 }
-            }
+                primeravez=false;
+             }
+             else{
+                for(int i =0;i<capacidadjugador;i++){
+                    Item itemactual=array.Get(i);
+                    Debug.Log(i);
+                    //Debug.Log(!object.ReferenceEquals(itemactual, null));
+                    // la forma de revisar si es igual a null en unity 
+                    if(!object.ReferenceEquals(itemactual, null)){
+                        Debug.Log("entrocosa");
+                        Sprite icono=itemactual.icono;
+                        Transform objetoslot=inventariogameobject.transform.GetChild(i+3);
+                        objetoslot.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                    }
+                }
+             }  
             inventariogameobject.SetActive(true);
             oprimidoabrir=false;
         }
+        if(oprimidosalir){
+            inventariogameobject.SetActive(false);
+            oprimidosalir=false;
+        }
     }
-    public void BotonOprimido(){
-        
+    public void BotonOprimido(){  
         oprimidoabrir=true;
-        
+    }
+    public void BotonSalirOprimido(){
+        oprimidosalir=true;
     }
 }
 public class ArrayList{

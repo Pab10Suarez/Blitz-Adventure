@@ -58,6 +58,7 @@ public class email : MonoBehaviour
 			 foreach (Transform child in transform) {
 				GameObject.Destroy(child.gameObject);
 			}
+			oprimidoexit=false;
 		}
 	}
 	void FixedUpdate() {
