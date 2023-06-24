@@ -21,18 +21,30 @@ public class mapRegion : MonoBehaviour
     public GameObject camino4;
     public GameObject camino5;
     public GameObject camino6;
+    private TablaHashMapa hashMap = new TablaHashMapa();
+    public Text partida;
+    public Text llegada;
+    private Region region1;
+    private Region region2;
+    private Region region3;
+    private Region region4;
+    private Region region6;
+    private Region region7;
+    private Region region8;
+        
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Region region1 = new Region("Zona fertida",20);
-        Region region2 = new Region("Hogar",15);
-        Region region3 = new Region("Desertica",10);
-        Region region4 = new Region("Bosque",8);
-        Region region6 = new Region("Tierra prohibida",4);
-        Region region7 = new Region("Zona fertil",25);
-        Region region8 = new Region("Valle",30);
+        region1 = new Region("Zona fertida",20);
+        region2 = new Region("Hogar",15);
+        region3 = new Region("Desertica",10);
+        region4 = new Region("Bosque",8);
+        region6 = new Region("Tierra prohibida",4);
+        region7 = new Region("Zona fertil",25);
+        region8 = new Region("Valle",30);
 
 
         mapa = new Map();
@@ -53,11 +65,47 @@ public class mapRegion : MonoBehaviour
         nameRegion1.text = region1.getName();
         nameRegion8.text = region8.getName();
 
+        hashMap.add("Zona fertida",region1);
+        hashMap.add("Hogar",region2);
+        hashMap.add("Desertica",region3);
+        hashMap.add("Bosque",region4);
+        hashMap.add("Tierra prohibida",region6);
+        hashMap.add("Zona fertil",region7);
+        hashMap.add("Valle",region8);
+
         off();
 
-        mapa.camino(region6,region1);
+    }
+
+    public void off(){
+
+        camino1.SetActive(false);
+        camino2.SetActive(false);
+        camino3.SetActive(false);
+        camino4.SetActive(false);
+        camino5.SetActive(false);
+        camino6.SetActive(false);
+    }
+
+    public void puntoPartLlega(){
+        string par = partida.text;
+        string lleg = llegada.text;
+
+        ruta(par,lleg);
+    }
+
+    public void ruta(string partida,string llegada){
+        
+        Region regionPartida = hashMap.getValue(partida);
+        Region regionLlegada = hashMap.getValue(llegada);
 
 
+        mapa.camino(regionPartida,regionLlegada);
+        recorridoCamino();
+
+    }
+
+    public void recorridoCamino(){
         if(region1.isFormTravel()==true){
             camino1.SetActive(true);
         }
@@ -81,19 +129,8 @@ public class mapRegion : MonoBehaviour
         if(region3.isFormTravel()==true){
             camino6.SetActive(true);
         }
-
-        //mapa.printRoot();
-        //mapa.printRoot();
     }
 
-    public void off(){
 
-        camino1.SetActive(false);
-        camino2.SetActive(false);
-        camino3.SetActive(false);
-        camino4.SetActive(false);
-        camino5.SetActive(false);
-        camino6.SetActive(false);
-    }
 
 }
