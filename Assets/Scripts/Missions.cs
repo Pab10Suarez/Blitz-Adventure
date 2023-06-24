@@ -14,12 +14,12 @@ public class Missions : MonoBehaviour
 	private int id;
 	 
 	
-	public Missions(int id,string title,int difficulty,string description) {
+	public Missions(int id,int priority,string title,int difficulty,string description){
 		this.title = title;
 		this.difficulty=difficulty;
-		this.id = id;
-		this.description=description;
-		setPriority();
+		this.priority = priority;
+		this.description=description;	
+		this.id = id;	
 	}
 	public Missions(int id,string title,int difficulty) {
 		this.title = title;

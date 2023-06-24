@@ -8,9 +8,11 @@ public class UIAnimation : MonoBehaviour
     [SerializeField] float delay;
     [SerializeField] AnimationCurve animationCurve;
     [SerializeField] RectTransform target;
-    [SerializeField] Vector2 startPoint;
-    [SerializeField] Vector2 finalPoint;
+    public Vector2 startPoint;
+    public Vector2 finalPoint;
+    void Start(){
 
+    }
     public void fadeIn(){
         StopAllCoroutines();
         StartCoroutine(fadeInCoroutine(startPoint,finalPoint));
