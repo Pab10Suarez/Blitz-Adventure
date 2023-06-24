@@ -33,7 +33,7 @@ public class email : MonoBehaviour
 		misionprueba2.description="Necesito que me ayudes con algo lo mas pronto posible.\n-Gil (tu nuevo vecino)";
 		addMessage(misionprueba2);
 		Missions misionprueba3=new Missions(2,3,"¿Puedes recoger mi gato por mi?",1,"");
-		misionprueba2.description="Hola mi gato se ha escapado, lo he buscado por todo slados pero no consigo encontrarlo. Se llama vaquita";
+		misionprueba3.description="Hola mi gato se ha escapado, lo he buscado por todo slados pero no consigo encontrarlo. Se llama vaquita";
 		addMessage(misionprueba3);
 		Posicionsiguientecarta=cartaprefab.position;
 	}
