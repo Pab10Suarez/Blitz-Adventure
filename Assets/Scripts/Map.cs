@@ -217,6 +217,7 @@ class travelMap
         return current;
     }
 
+
     private int minimo(Node z, Region y) {
         Node aux;
         if(z==null) {
