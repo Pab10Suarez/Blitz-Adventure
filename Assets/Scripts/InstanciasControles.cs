@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using UnityEngine.UI;
 
 public class InstanciasControles : MonoBehaviour
 {
+    public Button botoncerrar;
+    public Button botonabrir;
+    private bool botoncerraroprimido;
+    private bool botonabriroprimido;
+    public GameObject canvasgestor;
     public gestorMisiones gestor;
     public Missions mision;
 	public Text textoPantalla;
@@ -22,65 +28,116 @@ public class InstanciasControles : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Missions mision1 = new Missions(1,"Atrapa",1,"Atrapa los pollos");
-		Missions mision2 = new Missions(2,"¿Huevos?",1,"Recoge los huevos");
+        botonabriroprimido=false;
+        botonabrir.onClick.AddListener(BotonAbrirOprimido);
+        botoncerrar.onClick.AddListener(BotonCerrarOprimido);
 
-        Missions mision3 = new Missions(3,"Salta",2,"Salta sobre 5 obstaculos");
-		Missions mision4 = new Missions(4,"Enemigo",2,"Acaba con el enemigo");
+        // Missions mision1 = new Missions(1,"Atrapa",1,"Atrapa los pollos");
+		// Missions mision2 = new Missions(2,"¿Huevos?",1,"Recoge los huevos");
 
-
+        // Missions mision3 = new Missions(3,"Salta",2,"Salta sobre 5 obstaculos");
+		// Missions mision4 = new Missions(4,"Enemigo",2,"Acaba con el enemigo");
         gestor = new gestorMisiones();
+        // metodo que añade misiones a la cola prioritaria                      
+        // gestor.addMission(mision1);
+        // gestor.addMission(mision2);
+        // gestor.addMission(mision3);
+        // gestor.addMission(mision4);
+        //gestor.addMission(mision5);
+        //gestor.addMission(mision6);
 
-        gestor.addMission(mision1);
-        gestor.addMission(mision2);
-        gestor.addMission(mision3);
-        gestor.addMission(mision4);
+misiones = gestor.emailmissionEspecial();
+    }
 
+    private void BotonCerrarOprimido()
+    {
+        botoncerraroprimido=true;
+    }
+
+    public void BotonAbrirOprimido()
+    {
+        botonabriroprimido=true;
+    }
+
+    private void Update() {
+        if(botoncerraroprimido){
+            canvasgestor.SetActive(false);
+            botoncerraroprimido=false;
+        }
+        if(botonabriroprimido){
+Debug.Log("hola");
         misiones = gestor.emailmissionEspecial();
-
+        Debug.Log(misiones.Length);
         for(int n=0;n<misiones.Length;n++){
-
-            if(misiones[n].getPriority()==3){
-
-                string contenidoText = Mision1.text;
-                string contenidoText2 = Mision2.text;
-                string defecto = "New Text";
-                if(contenidoText.ToUpper()==defecto.ToUpper()){
-                    printMision(misiones[n]);
-                    dataEspeciales[0] = misiones[n];
-                }else if(contenidoText2.ToUpper()==defecto.ToUpper()){
-                    printMision1(misiones[n]);
-                    dataEspeciales[1] = misiones[n];
+            if(!object.ReferenceEquals(misiones[n], null)){
+                if (misiones[n].getPriority() == 3)
+                {
+                    string contenidoText = Mision1.text;
+                    string contenidoText2 = Mision2.text;
+                    string defecto = "";
+                    if (contenidoText.ToUpper() == defecto.ToUpper())
+                    {
+                        printMision(misiones[n]);
+                        if (dataEspeciales.Length > 0)
+                            dataEspeciales[0] = misiones[n];
+                    }
+                    else if (contenidoText2.ToUpper() == defecto.ToUpper())
+                    {
+                        printMision1(misiones[n]);
+                        if (dataEspeciales.Length > 1)
+                            dataEspeciales[1] = misiones[n];
+                    }
+                    gestor.deleteMision(misiones[n]);
                 }
-            }
-            else if(misiones[n].getPriority()==2){
-                //Debug.Log(misiones[n].getPriority());
-                string tituloP1 = MisionP1.text;
-                string tituloP2 = MisionP2.text;
-                string defecto = "New Text";
-                if(tituloP1.ToUpper()==defecto.ToUpper()){
-                    printMisionP(misiones[n]);
-                    dataPrincipal[0] = misiones[n];
-                }else if(tituloP2.ToUpper()==defecto.ToUpper()){
-                    printMision1P(misiones[n]);
-                    dataPrincipal[1] = misiones[n];
+                else if (misiones[n].getPriority() == 2)
+                {
+                    string tituloP1 = MisionP1.text;
+                    string tituloP2 = MisionP2.text;
+                    string defecto = "";
+                    if (tituloP1.ToUpper() == defecto.ToUpper())
+                    {
+                        printMisionP(misiones[n]);
+                        if (dataPrincipal.Length > 0)
+                            dataPrincipal[0] = misiones[n];
+                    }
+                    else if (tituloP2.ToUpper() == defecto.ToUpper())
+                    {
+                        printMision1P(misiones[n]);
+                        if (dataPrincipal.Length > 1)
+                            dataPrincipal[1] = misiones[n];
+                    }
+                    gestor.deleteMision(misiones[n]);
                 }
-            }
-            else if(misiones[n].getPriority()==1){
-                // Debug.Log(misiones[n].getPriority());
-                string tituloS1 = MisionS1.text;
-                string tituloS2 = MisionS2.text;
-                string defecto = "New Text";
-                if(tituloS1.ToUpper()==defecto.ToUpper()){
-                    printMisionS(misiones[n]);
-                    dataSegundarias[0] = misiones[n];
-                }else if(tituloS2.ToUpper()==defecto.ToUpper()){
-                    printMision1S(misiones[n]);
-                    dataSegundarias[1] = misiones[n];
+                else if (misiones[n].getPriority() == 1)
+                {
+                    string tituloS1 = MisionS1.text;
+                    string tituloS2 = MisionS2.text;
+                    string defecto = "";
+                    if (tituloS1.ToUpper() == defecto.ToUpper())
+                    {
+                        printMisionS(misiones[n]);
+                        if (dataSegundarias.Length > 0)
+                            dataSegundarias[0] = misiones[n];
+                    }
+                    else if (tituloS2.ToUpper() == defecto.ToUpper())
+                    {
+                        printMision1S(misiones[n]);
+                        if (dataSegundarias.Length > 1)
+                            dataSegundarias[1] = misiones[n];
+                    }
+                    gestor.deleteMision(misiones[n]);
                 }
+                    
+                
+            }
 
-            }
-		}
+		    }
+            
+            canvasgestor.SetActive(true);
+            botonabriroprimido=false;
+        }
+    // for que hace le proceso de actualizacion queue
+
     }
 
     //-------------------------------------------ESPECIALES MS---------------------------------------------------//
@@ -165,7 +222,7 @@ public class InstanciasControles : MonoBehaviour
     public void changeFlagSegundaria1(){
         pruebaSegundaria1();
     }
-
+    //MÉTODO QUE CREA LA DESCRIPCION
     private void pruebaSegundaria(){
         textoPantalla.text = dataSegundarias[0].getDescription();
 

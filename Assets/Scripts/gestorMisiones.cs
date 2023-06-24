@@ -7,7 +7,7 @@ using System;
 public class gestorMisiones : MonoBehaviour
 {
 
-	private queuePriority cola = new queuePriority(4);
+	private queuePriority cola = new queuePriority(6);
 
 	public void deleteMision(Missions mision) {
 		cola.delete(mision.getID());
@@ -22,6 +22,9 @@ public class gestorMisiones : MonoBehaviour
 		Missions[] values = cola.travel();
 		return values;
 	}
+	public Boolean Full(){
+		return cola.full();
+		}
 }
 
 
