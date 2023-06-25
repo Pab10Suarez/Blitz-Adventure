@@ -9709,6 +9709,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 490263110558764876, guid: 908388d9b215c224fa06b35b1a3a5ad2, type: 3}
+      propertyPath: m_Size.x
+      value: 1.784668
+      objectReference: {fileID: 0}
+    - target: {fileID: 490263110558764876, guid: 908388d9b215c224fa06b35b1a3a5ad2, type: 3}
+      propertyPath: m_Size.y
+      value: 2.65625
+      objectReference: {fileID: 0}
+    - target: {fileID: 490263110558764876, guid: 908388d9b215c224fa06b35b1a3a5ad2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1942832501, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+    - target: {fileID: 490263110558764876, guid: 908388d9b215c224fa06b35b1a3a5ad2, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 490263110558764877, guid: 908388d9b215c224fa06b35b1a3a5ad2, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9793,8 +9809,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.78125, y: 2.65625}
+    newSize: {x: 1.784668, y: 2.65625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

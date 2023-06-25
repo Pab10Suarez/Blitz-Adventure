@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {   
+    public Espada espada;
     public float moveSpeed=1f;
     public float collisionOffset=0.05f;//cuando se hace publica sale en el editor de unity
     public ContactFilter2D movementFilter;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
         rb=GetComponent<Rigidbody2D>();
         animator=GetComponent<Animator>();
         Debug.Log("holo");
+        this.espada= new Espada(1,"Espada normal");
     }
 
     // Update is called once per frame
