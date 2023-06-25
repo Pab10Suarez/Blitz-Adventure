@@ -3,60 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
-{   
+{
     public Espada espada;
-    public float moveSpeed=1f;
-    public float collisionOffset=0.05f;//cuando se hace publica sale en el editor de unity
+    public float moveSpeed = 1f;
+    public float collisionOffset = 0.05f;//cuando se hace publica sale en el editor de unity
     public ContactFilter2D movementFilter;
     public Animator animator;
     Vector2 movementInput;
     Rigidbody2D rb;
-    List<RaycastHit2D> castCollisions=new List<RaycastHit2D>();
+    List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     bool success;
     void Start()
     {//busca el componente rigidbody y lo guarda en el atributo
-        rb=GetComponent<Rigidbody2D>();
-        animator=GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         Debug.Log("holo");
-        this.espada= new Espada(1,"Espada normal");
     }
 
     // Update is called once per frame
     void Update()
-    {           if(movementInput==(Vector2.zero)){
-            animator.SetBool("IsMoving",false);      
+    {
+        if (movementInput == (Vector2.zero))
+        {
+            animator.SetBool("IsMoving", false);
         }
-        else{
-            animator.SetBool("IsMoving",true);  
+        else
+        {
+            animator.SetBool("IsMoving", true);
         }
-        animator.SetFloat("horizontal",movementInput.x);
-        animator.SetFloat("vertical",movementInput.y);
+        animator.SetFloat("horizontal", movementInput.x);
+        animator.SetFloat("vertical", movementInput.y);
 
-         
+
     }
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         //si el movimiento no es 0 intentar moverse
-        if(movementInput !=Vector2.zero){
+        if (movementInput != Vector2.zero)
+        {
             success = TryMove(movementInput);
-                 
+
         }
     }
-    private bool TryMove(Vector2 direction){
-        if(direction != Vector2.zero) {
+    public void AttackDirection(){
+        if(movementInput==Vector2.zero||movementInput==Vector2.down){
+            espada.AttackDownDirection();
+        }
+        else if(movementInput==Vector2.left){
+            espada.AttackLeftDirection();
+
+        }
+        else if(movementInput==Vector2.right){
+            espada.AttackRightDirection();
+        }
+        else if(movementInput==Vector2.up){
+            espada.AttackUpDirection();
+        }
+    }
+    private bool TryMove(Vector2 direction)
+    {
+        if (direction != Vector2.zero)
+        {
             //if(countcollisions==0){
-                rb.MovePosition(rb.position+movementInput*moveSpeed*Time.fixedDeltaTime);
-                return true;
+            rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+            return true;
             //}
             //else{
             //     return false;
             // }
         }
-        else{
-          return false;   
-        }    
+        else
+        {
+            return false;
+        }
     }
     //recibe 
-    void OnMove(InputValue movementValue){
-        movementInput=movementValue.Get<Vector2>();
+    void OnMove(InputValue movementValue)
+    {
+        movementInput = movementValue.Get<Vector2>();
+    }
+    void OnFire(InputValue movementValue){
+        animator.SetFloat("horizontal", movementInput.x);
+        animator.SetFloat("vertical", movementInput.y);
+        animator.SetTrigger("swordAttack");
     }
 }
