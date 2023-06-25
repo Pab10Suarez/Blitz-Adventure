@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack_Right
+  m_Name: Slime_Defeated
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,19 +20,15 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 724581535, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+      value: {fileID: 905556910, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
     - time: 0.1
-      value: {fileID: -414967081, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+      value: {fileID: 652234457, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
     - time: 0.2
-      value: {fileID: -656440668, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+      value: {fileID: -1891898676, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
     - time: 0.3
-      value: {fileID: 949901207, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+      value: {fileID: -449492725, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
     - time: 0.4
-      value: {fileID: 1026948242, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - time: 0.5
-      value: {fileID: -917060123, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - time: 0.6
-      value: {fileID: 1285079707, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+      value: {fileID: 922268974, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -52,19 +48,17 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 724581535, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - {fileID: -414967081, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - {fileID: -656440668, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - {fileID: 949901207, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - {fileID: 1026948242, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - {fileID: -917060123, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
-    - {fileID: 1285079707, guid: 23748c298f885bf4c89671f6d30f562b, type: 3}
+    - {fileID: 905556910, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
+    - {fileID: 652234457, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
+    - {fileID: -1891898676, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
+    - {fileID: -449492725, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
+    - {fileID: 922268974, guid: 7c3877e8120ff0d4fa736cf2a9217119, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.70000005
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -85,14 +79,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.4
-    functionName: Ataquederecha
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.7
-    functionName: DetenerAtaque
+    functionName: Defeated
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

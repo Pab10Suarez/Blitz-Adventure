@@ -19,7 +19,7 @@ public class Espada : Item
     void Start()
     {
         Ataquederecha=new Vector2((float)0.3611833, (float)-0.3779988);
-        Ataqueabajo= new Vector2((float)0.774071, (float)0.4189231);
+        Ataqueabajo= new Vector2((float)0, (float)-0.4189231);
         Debug.Log(Ataquederecha);
         swordCollider = gameObject.GetComponent<BoxCollider2D>();
 
@@ -44,7 +44,7 @@ public class Espada : Item
     {
         swordCollider.size = new Vector2((float)0.774071, (float)0.4189231);
         swordCollider.enabled = true;
-        swordCollider.offset = new Vector2((float)Ataqueabajo.x, (float)-Ataqueabajo.y);
+        swordCollider.offset = new Vector2((float)-0.1, (float)-0.1);
     }
     public void AttackDownDirection()
     {
@@ -54,11 +54,21 @@ public class Espada : Item
         swordCollider.enabled = true;
         
     }
-    private void OntriggerEnter2D(Collider2D other){
+    private void OnTriggerEnter2D(Collider2D other){
         if(other.CompareTag("Enemy"))
         {
             //hacer daño al enemigo
+            Enemigo enemigo=other.GetComponent<Enemigo>();
+            enemigo.TakeDamage(daño);
+            Debug.Log("ATACAO");
+            
         }
+    }
+    public void StopAttack(){
+        swordCollider.enabled=false;
+    }
+    public void StartAttack(){
+         swordCollider.enabled=true;    
     }
     // Update is called once per frame
     void Update()

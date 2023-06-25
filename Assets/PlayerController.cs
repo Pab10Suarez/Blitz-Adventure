@@ -74,11 +74,9 @@ public class PlayerController : MonoBehaviour
 
                 }
                 else{
+                    EndSwordAttack();
                     animator.Play("Movement");
                 }
-                
-
-                
             }
             else{
                 if(atacando){
@@ -86,6 +84,7 @@ public class PlayerController : MonoBehaviour
 
                 }
                 else{
+                    EndSwordAttack();
                     animator.Play("Idle");
                 }
                 
@@ -93,6 +92,9 @@ public class PlayerController : MonoBehaviour
             
         }
 
+    }
+    public void EndSwordAttack(){
+        espada.StopAttack();
     }
     public void DetenerAtaque(){
         atacando=false;
@@ -135,6 +137,5 @@ public class PlayerController : MonoBehaviour
     void OnFire(InputValue movementValue){
         atacando=true;
         //animator.Play("swordAttack");
-        
     }
 }
