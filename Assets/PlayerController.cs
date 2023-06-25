@@ -13,78 +13,128 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     List<RaycastHit2D> castCollisions = new List<RaycastHit2D>();
     bool success;
+    bool animLocked=false;
+    bool canMove=true;
+    bool isMoving=false;
+    bool atacando=false;
     void Start()
     {//busca el componente rigidbody y lo guarda en el atributo
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         Debug.Log("holo");
+        espada.daño=1;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (movementInput == (Vector2.zero))
-        {
-            animator.SetBool("IsMoving", false);
-        }
-        else
-        {
-            animator.SetBool("IsMoving", true);
-        }
-        animator.SetFloat("horizontal", movementInput.x);
-        animator.SetFloat("vertical", movementInput.y);
+        // if (movementInput == (Vector2.zero))
+        // {
+        //     animator.SetBool("IsMoving", false);
+        // }
+        // else
+        // {
+        //     animator.SetBool("IsMoving", true);
+        // }
+        // animator.SetFloat("horizontal", movementInput.x);
+        // animator.SetFloat("vertical", movementInput.y);
 
 
     }
     private void FixedUpdate()
     {
         //si el movimiento no es 0 intentar moverse
-        if (movementInput != Vector2.zero)
-        {
-            success = TryMove(movementInput);
+        // if (movementInput != Vector2.zero)
+        // {
+        //     success = TryMove(movementInput);
 
+        // }
+        if(!animLocked && movementInput!=Vector2.zero){
+            animator.SetFloat("horizontal", movementInput.x);
+            animator.SetFloat("vertical", movementInput.y);
         }
-    }
-    public void AttackDirection(){
-        if(movementInput==Vector2.zero||movementInput==Vector2.down){
-            espada.AttackDownDirection();
-        }
-        else if(movementInput==Vector2.left){
-            espada.AttackLeftDirection();
+        if( rb.bodyType==RigidbodyType2D.Dynamic){
+            if(canMove==true&&movementInput !=Vector2.zero){
+                rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+                isMoving=true;
 
+            }
+            else{
+                isMoving=false;
+            }
         }
-        else if(movementInput==Vector2.right){
-            espada.AttackRightDirection();
-        }
-        else if(movementInput==Vector2.up){
-            espada.AttackUpDirection();
-        }
+        UpdateAnimation();
     }
-    private bool TryMove(Vector2 direction)
-    {
-        if (direction != Vector2.zero)
-        {
-            //if(countcollisions==0){
-            rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
-            return true;
-            //}
-            //else{
-            //     return false;
-            // }
+    void UpdateAnimation(){
+        if(!animLocked&&canMove){
+            if(movementInput!=Vector2.zero){
+                if(atacando){
+                    animator.Play("Player_attack");
+
+                }
+                else{
+                    animator.Play("Movement");
+                }
+                
+
+                
+            }
+            else{
+                if(atacando){
+                    animator.Play("Player_attack");
+
+                }
+                else{
+                    animator.Play("Idle");
+                }
+                
+            }
+            
         }
-        else
-        {
-            return false;
-        }
+
     }
+    public void DetenerAtaque(){
+        atacando=false;
+    }
+    public void Ataqueabajo(){
+        espada.AttackDownDirection();
+    }
+    public void Ataquederecha(){
+        espada.AttackRightDirection();
+    }
+    public void Ataqueizquierda(){
+        espada.AttackLeftDirection();
+    }
+    public void Ataquearriba(){
+        espada.AttackUpDirection();
+     }
+    // private bool TryMove(Vector2 direction)
+    // {
+    //     if (direction != Vector2.zero)
+    //     {
+    //         //if(countcollisions==0){
+    //         rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
+    //         return true;
+    //         //}
+    //         //else{
+    //         //     return false;
+    //         // }
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+    // }
     //recibe 
     void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
+        
     }
     void OnFire(InputValue movementValue){
-        animator.SetFloat("horizontal", movementInput.x);
-        animator.SetFloat("vertical", movementInput.y);
-        animator.SetTrigger("swordAttack");
+        atacando=true;
+        //animator.Play("swordAttack");
+        
     }
 }
