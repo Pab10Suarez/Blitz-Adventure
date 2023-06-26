@@ -23,6 +23,10 @@ public class Itemslot : MonoBehaviour
             detallesobjeto.Find("Layout vertical/Nombre objeto").GetComponent<TMPro.TextMeshPro>().text=item.nombre;
             detallesobjeto.Find("Layout vertical/Iconoobjeto/spriteobjeto").GetComponent<SpriteRenderer>().sprite=item.icono;
             detallesobjeto.Find("Layout vertical/Descripcionobjeto").GetComponent<TMPro.TextMeshPro>().text=item.descripcion;
+            if(item.equipable){
+                detallesobjeto.Find("Layout vertical/Botones/Boton usar/Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().text="Equipar";
+            }
+            
             detallesobjeto.gameObject.SetActive(true);
         }
     }

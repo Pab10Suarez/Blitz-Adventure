@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ public class Inventario: MonoBehaviour
    private bool oprimidoabrir;
    private bool primeravez;
    public GameObject inventariogameobject;
+   TableHash<string,Item> equipados=new TableHash<string, Item>();
     // Start is called before the first frame update
     void Start(){
         oprimidoabrir=false;
@@ -47,20 +49,9 @@ public class Inventario: MonoBehaviour
                 primeravez=false;
              }
              else{
-                for(int i =0;i<capacidadjugador;i++){
-                    Item itemactual=array.Get(i);
-                    Debug.Log(i);
-                    //Debug.Log(!object.ReferenceEquals(itemactual, null));
-                    // la forma de revisar si es igual a null en unity 
-                    if(!object.ReferenceEquals(itemactual, null)){
-                        Debug.Log("entrocosa");
-                        Sprite icono=itemactual.icono;
-                        Transform objetoslot=inventariogameobject.transform.GetChild(i+3);
-                        objetoslot.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
-                        objetoslot.transform.GetComponent<Itemslot>().item=itemactual;
-                    }
-                }
-             }  
+                ActualizarObjetos();
+
+             }
             inventariogameobject.SetActive(true);
             oprimidoabrir=false;
         }
@@ -74,6 +65,31 @@ public class Inventario: MonoBehaviour
             oprimidosalirdetalles=false;
         }
     }
+
+    private void ActualizarObjetos()
+    {
+            for(int i =0;i<capacidadjugador;i++){
+                    Item itemactual=array.Get(i);
+                    Debug.Log(i);
+                    //Debug.Log(!object.ReferenceEquals(itemactual, null));
+                    // la forma de revisar si es igual a null en unity 
+                    if(!object.ReferenceEquals(itemactual, null)){
+                        Debug.Log("entrocosa");
+                        Sprite icono=itemactual.icono;
+                        Transform objetoslot=inventariogameobject.transform.GetChild(i+3);
+                        objetoslot.Find("Itempicture").GetComponent<SpriteRenderer>().sprite=icono;
+                        objetoslot.transform.GetComponent<Itemslot>().item=itemactual;
+                        if(itemactual.equipado){
+                            objetoslot.Find("equipadoicono").gameObject.SetActive(true);
+                        }
+                        else{
+                            objetoslot.Find("equipadoicono").gameObject.SetActive(false);
+                        }
+                        
+                    }
+            }
+    }
+
     public void BotonOprimido(){  
         oprimidoabrir=true;
     }

@@ -9,10 +9,13 @@ public class Espada : Item
     Vector2 Ataquederecha;
     Vector2 Ataqueabajo ;
 
-    public Espada(int daño, string nombre)
+    public Espada()
     {
-        this.daño = daño;
-        this.nombre = nombre;
+
+        this.daño = 1;
+        this.nombre = "Espada de Caballero";
+        this.descripcion="Sirve para defenderse contras pequeñas criaturas\n Hace "+daño+" puntos de daño";
+        this.icono=Resources.Load<Sprite>("espadaicono");
     }
 
     // Start is called before the first frame update

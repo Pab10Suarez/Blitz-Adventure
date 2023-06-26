@@ -10,6 +10,8 @@ public class Item: MonoBehaviour
     public  int precio;
     public bool  stackea =false;
     public GameObject inventario;
+    public bool equipable=false;
+    public bool equipado=false;
     
     // Start is called before the first frame update
     void Start()

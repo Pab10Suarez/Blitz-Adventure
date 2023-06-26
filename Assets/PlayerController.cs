@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public Espada espada;
+    public Sombrero sombrero;
+    public int vidapj=1;
     public float moveSpeed = 1f;
     public float collisionOffset = 0.05f;//cuando se hace publica sale en el editor de unity
     public ContactFilter2D movementFilter;
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         Debug.Log("holo");
+        
         espada.daño=1;
         
     }
@@ -111,24 +114,6 @@ public class PlayerController : MonoBehaviour
     public void Ataquearriba(){
         espada.AttackUpDirection();
      }
-    // private bool TryMove(Vector2 direction)
-    // {
-    //     if (direction != Vector2.zero)
-    //     {
-    //         //if(countcollisions==0){
-    //         rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
-    //         return true;
-    //         //}
-    //         //else{
-    //         //     return false;
-    //         // }
-    //     }
-    //     else
-    //     {
-    //         return false;
-    //     }
-    // }
-    //recibe 
     void OnMove(InputValue movementValue)
     {
         movementInput = movementValue.Get<Vector2>();
@@ -138,4 +123,11 @@ public class PlayerController : MonoBehaviour
         atacando=true;
         //animator.Play("swordAttack");
     }
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.CompareTag("Enemy"))
+        {
+            sombrero.vida-=1;
+        }
+    }
+
 }
