@@ -254,6 +254,15 @@ public class ArrayList{
         }
         UnityEngine.Debug.Log("]");
     }
+
+    public void Update(int index,Item value){
+
+        if(index>=0 && index < size){
+            list[index] = value;
+            return;
+        }
+        UnityEngine.Debug.Log("Index out of bounds");
+    }
     
 }
 
