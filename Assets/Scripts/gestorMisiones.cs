@@ -7,7 +7,7 @@ using System;
 public class gestorMisiones : MonoBehaviour
 {
 
-	private queuePriority cola = new queuePriority(6);
+	public queuePriority cola = new queuePriority(6);
 
 	public void deleteMision(Missions mision) {
 		cola.delete(mision.getID());
@@ -112,7 +112,7 @@ class arrayStack<T>{
 	}
 }
 
-class queuePriority{
+public class queuePriority{
 
 	private int size;
 	private int maxSize;

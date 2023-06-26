@@ -61,14 +61,7 @@ misiones = gestor.emailmissionEspecial();
     }
 
     private void Update() {
-        if(slimesmoridos==4){
-            misiones =gestor.emailmissionEspecial();
-            for(int n=0;n<misiones.Length;n++){
-                if(misiones[n].getTitle().Equals("¡Muchos Slimes!")){
-                    gestor.deleteMision(misiones[n]);
-                }
-            }
-        }
+
         if(botoncerraroprimido){
             canvasgestor.SetActive(false);
             botoncerraroprimido=false;
@@ -79,10 +72,17 @@ Debug.Log("hola");
         Debug.Log(misiones.Length);
         for(int n=0;n<misiones.Length;n++){
             if(!object.ReferenceEquals(misiones[n], null)){
+
                 if (misiones[n].getPriority() == 3)
                 {
                     string contenidoText = Mision1.text;
                     string contenidoText2 = Mision2.text;
+                if(slimesmoridos==4&&misiones[n].getTitle()=="¡Muchos Slimes"){
+                    contenidoText="";
+                    contenidoText2="";
+                    //gestor.deleteMision(misiones[n]);
+                }
+
                     string defecto = "";
                     if (contenidoText.ToUpper() == defecto.ToUpper())
                     {
@@ -96,12 +96,18 @@ Debug.Log("hola");
                         if (dataEspeciales.Length > 1)
                             dataEspeciales[1] = misiones[n];
                     }
+
                     gestor.deleteMision(misiones[n]);
                 }
                 else if (misiones[n].getPriority() == 2)
                 {
                     string tituloP1 = MisionP1.text;
                     string tituloP2 = MisionP2.text;
+                if(slimesmoridos==4&&misiones[n].getTitle()=="¡Muchos Slimes"){
+                    tituloP1="";
+                    tituloP2="";
+                    //gestor.deleteMision(misiones[n]);
+                }
                     string defecto = "";
                     if (tituloP1.ToUpper() == defecto.ToUpper())
                     {
@@ -116,11 +122,22 @@ Debug.Log("hola");
                             dataPrincipal[1] = misiones[n];
                     }
                     gestor.deleteMision(misiones[n]);
+                if(slimesmoridos==4){
+                    misiones =gestor.emailmissionEspecial();
+                    //gestor.cola.remove(0);
+                }
                 }
                 else if (misiones[n].getPriority() == 1)
                 {
+
+
                     string tituloS1 = MisionS1.text;
                     string tituloS2 = MisionS2.text;
+                if(slimesmoridos==4&&misiones[n].getTitle()=="¡Muchos Slimes"){
+                    tituloS1="";
+                    tituloS2="";
+                    gestor.deleteMision(misiones[n]);
+                }
                     string defecto = "";
                     if (tituloS1.ToUpper() == defecto.ToUpper())
                     {
@@ -138,9 +155,14 @@ Debug.Log("hola");
                 }
                     
                 
+                }
+
+            }
+            if(slimesmoridos==4){
+                MisionP1.text="";
             }
 
-		    }
+		    
             
             canvasgestor.SetActive(true);
             botonabriroprimido=false;
