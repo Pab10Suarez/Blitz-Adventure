@@ -5,27 +5,52 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Inventario: MonoBehaviour
 {
+    public PlayerController player;
     public int capacidadjugador=14;
     public ArrayList array=new(14);
    public RectTransform itemprefab;
    public Button boton;
    public Button botonsalir;
    public Button botonsalirdetalles;
+   public Button botonusaritem;
    private bool oprimidosalirdetalles;
    private bool oprimidosalir;
    private bool oprimidoabrir;
    private bool primeravez;
+   private bool oprimidousaritem;
    public GameObject inventariogameobject;
+   public Item itemendetalles;
    TableHash<string,Item> equipados=new TableHash<string, Item>();
     // Start is called before the first frame update
     void Start(){
         oprimidoabrir=false;
         primeravez=true;
+        botonusaritem.onClick.AddListener(UsarItem);
         boton.onClick.AddListener(BotonOprimido);
         botonsalir.onClick.AddListener(BotonSalirOprimido);
         botonsalirdetalles.onClick.AddListener(BotonSalirDetallesOprimido);
         
     }
+
+    private void UsarItem()
+    {
+        if(itemendetalles.equipable){
+            itemendetalles.equipado=true;
+            if(itemendetalles is Sombrero){
+                player.sombrero=(Sombrero)itemendetalles;
+                equipados.put("sombrero",itemendetalles);
+                player.EquiparSombrero();
+                ActualizarObjetos();
+                Debug.Log(player.vidapj);
+            }
+            else if(itemendetalles is Espada){
+                player.espada=(Espada)itemendetalles;
+                equipados.put("espada",itemendetalles);
+                ActualizarObjetos();
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {   

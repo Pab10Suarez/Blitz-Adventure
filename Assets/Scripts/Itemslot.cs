@@ -5,11 +5,13 @@ using UnityEngine;
 public class Itemslot : MonoBehaviour
 {
     public Transform detallesobjeto; 
+    public Inventario inv;
     public Item item=null;
     // Start is called before the first frame update
     void Start()
     {
         RectTransform inventario=gameObject.transform.parent.GetComponent<RectTransform>();
+        inv=gameObject.transform.parent.parent.Find("Inventario script").GetComponent<Inventario>();
         detallesobjeto=inventario.Find("detalles objeto");
     }
 
@@ -26,6 +28,7 @@ public class Itemslot : MonoBehaviour
             if(item.equipable){
                 detallesobjeto.Find("Layout vertical/Botones/Boton usar/Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().text="Equipar";
             }
+            inv.itemendetalles=item;
             
             detallesobjeto.gameObject.SetActive(true);
         }

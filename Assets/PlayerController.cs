@@ -24,9 +24,11 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         Debug.Log("holo");
-        
         espada.daño=1;
-        
+    }
+    public void EquiparSombrero(){
+        vidapj+=sombrero.vida;
+
     }
 
     // Update is called once per frame
