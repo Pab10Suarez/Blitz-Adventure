@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Coin: Item
 {
+    public AudioSource sonido;
     
     public  Coin() 
     {
@@ -16,6 +17,7 @@ public class Coin: Item
         if(collision.CompareTag("Player"))
         {
             if(!inventario.GetComponent<Inventario>().array.IsFull()){
+                sonido.Play();
                 inventario.GetComponent<Inventario>().array.PushBack(this);
                 inventario.GetComponent<Inventario>().array.Print();
                 Destroy(gameObject);

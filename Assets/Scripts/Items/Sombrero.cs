@@ -6,6 +6,7 @@ public class Sombrero : Item
 {
     // Start is called before the first frame update
     public int vida;
+    public AudioSource sonido;
     public Sombrero(){
         this.nombre="Sombrero de Rancho";
         this.descripcion="si señor yo soy de rancho\n Te protege 2HP";
@@ -17,6 +18,7 @@ public class Sombrero : Item
         {
             Debug.Log("colision");
             if(!inventario.GetComponent<Inventario>().array.IsFull()){
+                sonido.Play();
                 inventario.GetComponent<Inventario>().array.PushBack(this);
                 inventario.GetComponent<Inventario>().array.Print();
                 Destroy(gameObject);

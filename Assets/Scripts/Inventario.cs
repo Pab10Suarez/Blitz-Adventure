@@ -44,7 +44,11 @@ public class Inventario: MonoBehaviour
                 Debug.Log(player.vidapj);
             }
             else if(itemendetalles is Espada){
-                player.espada=(Espada)itemendetalles;
+                Espada nueva=(Espada)itemendetalles;
+                player.espada.daño=nueva.daño;
+                player.espada.nombre=nueva.nombre;
+                player.espada.descripcion=nueva.descripcion;
+                player.espada.icono=nueva.icono;
                 equipados.put("espada",itemendetalles);
                 ActualizarObjetos();
             }

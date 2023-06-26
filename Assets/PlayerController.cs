@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         Debug.Log("holo");
         espada.daño=1;
+        sombrero=new Sombrero();
     }
     public void EquiparSombrero(){
         vidapj+=sombrero.vida;

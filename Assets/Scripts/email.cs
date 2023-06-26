@@ -26,14 +26,14 @@ public class email : MonoBehaviour
     {
 		oprimidoabrir=false;
         btnClick.onClick.AddListener(botonabrirOprimido);
-		Missions misionprueba=new Missions(0,2,"¡Bienvenido!",0,"");
-		misionprueba.description="Hola, bienvenido a Blitz Land, espero que disfrutes la estadia en tu nueva casa, ya que veo que eres nuevo por aca te mostraré el lugar";
+		Missions misionprueba=new Missions(0,2,"¡Muchos Slimes!",0,"");
+		misionprueba.description="Los slimes no dejan de salir y nadie hace nada para detenerlos, derrota 4 slimes.";
 		addMessage(misionprueba);
 		Missions misionprueba2=new Missions(1,1,"Ayuda en el vecindario",1,"");
 		misionprueba2.description="Necesito que me ayudes con algo lo mas pronto posible.\n-Gil (tu nuevo vecino)";
 		addMessage(misionprueba2);
 		Missions misionprueba3=new Missions(2,3,"¿Puedes recoger mi gato por mi?",1,"");
-		misionprueba3.description="Hola mi gato se ha escapado, lo he buscado por todo slados pero no consigo encontrarlo. Se llama vaquita";
+		misionprueba3.description="Hola mi gato se ha escapado, lo he buscado por todo lados pero no consigo encontrarlo. Se llama vaquita";
 		addMessage(misionprueba3);
 		Posicionsiguientecarta=cartaprefab.position;
 	}

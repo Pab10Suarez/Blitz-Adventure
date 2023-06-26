@@ -25,6 +25,7 @@ public class InstanciasControles : MonoBehaviour
     private Missions[] dataEspeciales = new Missions[2];
     private Missions[] dataPrincipal = new Missions[2];
     private Missions[] dataSegundarias = new Missions[2];
+    public int slimesmoridos;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +61,14 @@ misiones = gestor.emailmissionEspecial();
     }
 
     private void Update() {
+        if(slimesmoridos==4){
+            misiones =gestor.emailmissionEspecial();
+            for(int n=0;n<misiones.Length;n++){
+                if(misiones[n].getTitle().Equals("¡Muchos Slimes!")){
+                    gestor.deleteMision(misiones[n]);
+                }
+            }
+        }
         if(botoncerraroprimido){
             canvasgestor.SetActive(false);
             botoncerraroprimido=false;

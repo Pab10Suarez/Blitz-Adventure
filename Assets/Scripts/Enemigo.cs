@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Enemigo : MonoBehaviour
 {
+    public InstanciasControles gestor;
     public int health;
     public Animator animator;
     private bool destruir=false;
-    
+    public AudioSource morir;
+    public AudioSource dañao;
+    public void mortis(){
+        morir.Play();
+    }
     public void Defeated(){
+        gestor.slimesmoridos++;
         Destroy(gameObject);
     }
     public void TakeDamage(int daño){
+        dañao.Play();
         health-=daño;
         Debug.Log(daño);
         if(health<=0){
